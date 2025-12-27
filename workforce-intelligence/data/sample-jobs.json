@@ -1,0 +1,669 @@
+{
+  "jobs": [
+    {
+      "id": "job-001",
+      "jobTitle": "Financial Analyst",
+      "taxonomyResolution": {
+        "inputTitle": "Financial Analyst",
+        "resolvedTitle": "Financial Analysts",
+        "onetCode": "13-2051.00",
+        "confidence": "high",
+        "alternativeTitles": ["Budget Analyst", "Investment Analyst", "Securities Analyst"],
+        "matchReasoning": "Direct match to O*NET occupation. Financial Analysts conduct quantitative analyses of information involving investment programs or financial data of public or private institutions."
+      },
+      "tasks": [
+        {
+          "id": "task-001-1",
+          "name": "Data Collection & Aggregation",
+          "description": "Gather financial data from multiple sources including databases, reports, and market feeds",
+          "classification": "automate",
+          "automationPotential": 85,
+          "reasoning": "AI excels at systematic data collection, API integration, and aggregating information from structured sources. Current LLMs can parse financial documents and extract relevant metrics with high accuracy.",
+          "aiCapabilities": ["Data extraction", "Document parsing", "API integration", "Pattern recognition"]
+        },
+        {
+          "id": "task-001-2",
+          "name": "Financial Modeling",
+          "description": "Build and maintain financial models for valuation, forecasting, and scenario analysis",
+          "classification": "augment",
+          "automationPotential": 60,
+          "reasoning": "AI can assist with model construction and formula generation, but human judgment is essential for model assumptions, stress scenarios, and validation. The creative aspects of modeling require domain expertise.",
+          "aiCapabilities": ["Formula generation", "Error detection", "Scenario computation", "Template creation"],
+          "humanAdvantages": ["Assumption setting", "Model architecture decisions", "Business context integration"]
+        },
+        {
+          "id": "task-001-3",
+          "name": "Report Writing",
+          "description": "Prepare written analyses, recommendations, and investment reports",
+          "classification": "augment",
+          "automationPotential": 55,
+          "reasoning": "AI can draft initial reports and summarize findings, but nuanced interpretation, strategic recommendations, and stakeholder-specific communication require human expertise.",
+          "aiCapabilities": ["Draft generation", "Data summarization", "Template population", "Grammar/style checking"],
+          "humanAdvantages": ["Strategic insight", "Stakeholder awareness", "Recommendation nuance"]
+        },
+        {
+          "id": "task-001-4",
+          "name": "Stakeholder Presentations",
+          "description": "Present findings to executives, clients, and investment committees",
+          "classification": "retain",
+          "automationPotential": 20,
+          "reasoning": "Live presentations require reading the room, handling questions dynamically, building trust, and adapting messaging in real-time. These interpersonal elements remain firmly human domains.",
+          "aiCapabilities": ["Slide generation", "Data visualization", "Talking points preparation"],
+          "humanAdvantages": ["Real-time adaptation", "Trust building", "Question handling", "Political navigation"]
+        },
+        {
+          "id": "task-001-5",
+          "name": "Strategic Recommendations",
+          "description": "Develop investment strategies and make buy/sell/hold recommendations",
+          "classification": "retain",
+          "automationPotential": 25,
+          "reasoning": "While AI can surface data patterns, ultimate investment decisions require accountability, risk tolerance calibration, and integration of non-quantifiable factors. Fiduciary responsibility remains with humans.",
+          "aiCapabilities": ["Pattern identification", "Historical analysis", "Risk metrics"],
+          "humanAdvantages": ["Accountability", "Judgment under uncertainty", "Regulatory compliance", "Ethics"]
+        }
+      ],
+      "automationExposure": {
+        "automatePercentage": 20,
+        "augmentPercentage": 45,
+        "retainPercentage": 35,
+        "overallExposureScore": 52,
+        "exposureCategory": "moderate",
+        "summary": "Financial Analyst roles face moderate automation exposure. Routine data tasks will be significantly automated, but core analytical judgment and stakeholder relationships remain human-centric."
+      },
+      "skillImplications": [
+        {
+          "id": "skill-001-1",
+          "skillName": "AI Tool Proficiency",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Essential competency within 2-3 years",
+          "rationale": "Analysts who can effectively prompt AI systems, validate outputs, and integrate AI into workflows will dramatically outperform those who cannot. This is the new Excel proficiency.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["Prompt engineering", "Data validation", "Workflow automation"]
+        },
+        {
+          "id": "skill-001-2",
+          "skillName": "Strategic Communication",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Differentiating skill as routine work automates",
+          "rationale": "As AI handles more analytical grunt work, the ability to translate insights into compelling narratives and influence decisions becomes the primary value-add.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["Executive presence", "Data storytelling", "Persuasion"]
+        },
+        {
+          "id": "skill-001-3",
+          "skillName": "Spreadsheet Mechanics",
+          "currentRelevance": "decreasing",
+          "futureOutlook": "Commodity skill, less differentiating",
+          "rationale": "Advanced Excel skills are becoming table stakes rather than differentiators. AI can generate formulas and troubleshoot errors, reducing the premium on this skill.",
+          "developmentPriority": "low",
+          "adjacentSkills": ["Python/R basics", "BI tools", "Data visualization"]
+        }
+      ],
+      "methodology": [
+        {
+          "step": "1",
+          "title": "Taxonomy Resolution",
+          "description": "Job title mapped to O*NET Standard Occupational Classification for consistent task decomposition.",
+          "dataSource": "O*NET Database v28.0",
+          "limitations": "O*NET task lists may lag behind rapidly evolving job requirements"
+        },
+        {
+          "step": "2",
+          "title": "Task Decomposition",
+          "description": "Role broken into constituent tasks using O*NET task statements and industry research.",
+          "dataSource": "O*NET Task Statements, BLS Occupational Outlook",
+          "limitations": "Task weighting is estimated based on typical role, may vary by organization"
+        },
+        {
+          "step": "3",
+          "title": "AI Capability Matching",
+          "description": "Each task evaluated against current AI capabilities using standardized rubric.",
+          "dataSource": "Internal capability framework based on published AI benchmarks",
+          "limitations": "AI capabilities evolving rapidly; assessments reflect current state"
+        },
+        {
+          "step": "4",
+          "title": "Exposure Calculation",
+          "description": "Weighted aggregation of task-level automation potential into overall exposure score.",
+          "dataSource": "Proprietary weighting methodology",
+          "limitations": "Does not account for industry-specific adoption barriers"
+        }
+      ],
+      "capabilityLevel": "moderate",
+      "analysisDate": "2024-01-15"
+    },
+    {
+      "id": "job-002",
+      "jobTitle": "Software Developer",
+      "taxonomyResolution": {
+        "inputTitle": "Software Developer",
+        "resolvedTitle": "Software Developers",
+        "onetCode": "15-1252.00",
+        "confidence": "high",
+        "alternativeTitles": ["Software Engineer", "Programmer", "Application Developer", "Full Stack Developer"],
+        "matchReasoning": "Direct match to O*NET occupation. Software Developers research, design, and develop computer and network software or specialized utility programs."
+      },
+      "tasks": [
+        {
+          "id": "task-002-1",
+          "name": "Code Writing",
+          "description": "Write, test, and maintain code for software applications",
+          "classification": "augment",
+          "automationPotential": 70,
+          "reasoning": "AI coding assistants can generate substantial code from natural language descriptions, but human oversight remains essential for architecture decisions, edge cases, and maintainability. Current tools excel at boilerplate but struggle with novel problems.",
+          "aiCapabilities": ["Code generation", "Autocomplete", "Boilerplate creation", "Syntax correction"],
+          "humanAdvantages": ["Architecture design", "Edge case handling", "Code review judgment"]
+        },
+        {
+          "id": "task-002-2",
+          "name": "Debugging & Testing",
+          "description": "Identify and fix software defects, write and maintain test suites",
+          "classification": "augment",
+          "automationPotential": 55,
+          "reasoning": "AI can identify many bugs and suggest fixes, generate test cases, and catch common errors. However, complex logic bugs and understanding business requirements for testing need human judgment.",
+          "aiCapabilities": ["Bug detection", "Test generation", "Code analysis", "Fix suggestions"],
+          "humanAdvantages": ["Complex debugging", "Business logic validation", "Test strategy"]
+        },
+        {
+          "id": "task-002-3",
+          "name": "Documentation",
+          "description": "Write technical documentation, API docs, and code comments",
+          "classification": "automate",
+          "automationPotential": 80,
+          "reasoning": "AI excels at generating documentation from code, creating API references, and maintaining consistency. Human review ensures accuracy but generation is largely automated.",
+          "aiCapabilities": ["Doc generation", "Comment writing", "README creation", "API documentation"]
+        },
+        {
+          "id": "task-002-4",
+          "name": "Requirements Analysis",
+          "description": "Work with stakeholders to understand and document requirements",
+          "classification": "retain",
+          "automationPotential": 25,
+          "reasoning": "Understanding what stakeholders actually need (vs. what they say) requires empathy, domain knowledge, and navigating organizational politics. AI can help document but not discover requirements.",
+          "aiCapabilities": ["Documentation", "Consistency checking", "Template population"],
+          "humanAdvantages": ["Stakeholder empathy", "Implicit needs detection", "Political navigation"]
+        },
+        {
+          "id": "task-002-5",
+          "name": "System Architecture",
+          "description": "Design system architecture and make technology choices",
+          "classification": "retain",
+          "automationPotential": 30,
+          "reasoning": "Architecture decisions require understanding business constraints, team capabilities, future roadmaps, and making tradeoffs with incomplete information. AI can suggest patterns but not own decisions.",
+          "aiCapabilities": ["Pattern suggestions", "Best practice retrieval", "Diagram generation"],
+          "humanAdvantages": ["Tradeoff judgment", "Context integration", "Long-term thinking"]
+        }
+      ],
+      "automationExposure": {
+        "automatePercentage": 16,
+        "augmentPercentage": 50,
+        "retainPercentage": 34,
+        "overallExposureScore": 54,
+        "exposureCategory": "moderate",
+        "summary": "Software development is being significantly augmented rather than replaced. Developers using AI tools will dramatically outproduce those who don't, but the role of architect and requirements analyst becomes more important."
+      },
+      "skillImplications": [
+        {
+          "id": "skill-002-1",
+          "skillName": "AI-Assisted Development",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Table stakes within 1-2 years",
+          "rationale": "Developers who master AI coding assistants see 30-50% productivity gains. Not adopting these tools is like refusing to use an IDE.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["Prompt engineering for code", "Output validation", "AI tool selection"]
+        },
+        {
+          "id": "skill-002-2",
+          "skillName": "System Design & Architecture",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Key differentiator as coding commoditizes",
+          "rationale": "As AI handles more implementation, the ability to design systems that are maintainable, scalable, and aligned with business needs becomes the premium skill.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["Domain-driven design", "Distributed systems", "Technical leadership"]
+        },
+        {
+          "id": "skill-002-3",
+          "skillName": "Rote Coding Speed",
+          "currentRelevance": "decreasing",
+          "futureOutlook": "Less valuable as AI handles implementation",
+          "rationale": "The ability to quickly type out code is becoming less important than the ability to validate, refine, and integrate AI-generated code.",
+          "developmentPriority": "low",
+          "adjacentSkills": ["Code review", "Quality assurance", "Integration testing"]
+        }
+      ],
+      "methodology": [
+        {
+          "step": "1",
+          "title": "Taxonomy Resolution",
+          "description": "Job title mapped to O*NET Standard Occupational Classification for consistent task decomposition.",
+          "dataSource": "O*NET Database v28.0",
+          "limitations": "Software development roles vary significantly across organizations"
+        },
+        {
+          "step": "2",
+          "title": "Task Decomposition",
+          "description": "Role broken into constituent tasks using O*NET task statements and industry research.",
+          "dataSource": "O*NET Task Statements, Stack Overflow Developer Survey",
+          "limitations": "Task weighting based on typical full-stack role"
+        },
+        {
+          "step": "3",
+          "title": "AI Capability Matching",
+          "description": "Each task evaluated against current AI capabilities including GitHub Copilot, Claude, GPT-4.",
+          "dataSource": "Published benchmarks, HumanEval, SWE-bench",
+          "limitations": "AI coding capabilities improving rapidly"
+        },
+        {
+          "step": "4",
+          "title": "Exposure Calculation",
+          "description": "Weighted aggregation of task-level automation potential into overall exposure score.",
+          "dataSource": "Proprietary weighting methodology",
+          "limitations": "Does not account for company-specific tooling restrictions"
+        }
+      ],
+      "capabilityLevel": "moderate",
+      "analysisDate": "2024-01-15"
+    },
+    {
+      "id": "job-003",
+      "jobTitle": "Marketing Manager",
+      "taxonomyResolution": {
+        "inputTitle": "Marketing Manager",
+        "resolvedTitle": "Marketing Managers",
+        "onetCode": "11-2021.00",
+        "confidence": "high",
+        "alternativeTitles": ["Brand Manager", "Digital Marketing Manager", "Marketing Director"],
+        "matchReasoning": "Direct match to O*NET occupation. Marketing Managers plan, direct, or coordinate marketing policies and programs."
+      },
+      "tasks": [
+        {
+          "id": "task-003-1",
+          "name": "Content Creation",
+          "description": "Create marketing copy, social media posts, email campaigns, and other content",
+          "classification": "augment",
+          "automationPotential": 65,
+          "reasoning": "AI can generate draft content quickly, but brand voice, strategic messaging, and creative differentiation require human creativity and judgment. AI is a force multiplier for content teams.",
+          "aiCapabilities": ["Draft generation", "A/B variant creation", "Localization", "SEO optimization"],
+          "humanAdvantages": ["Brand voice", "Creative strategy", "Emotional resonance"]
+        },
+        {
+          "id": "task-003-2",
+          "name": "Campaign Analytics",
+          "description": "Analyze campaign performance and derive insights",
+          "classification": "automate",
+          "automationPotential": 75,
+          "reasoning": "AI excels at processing campaign data, identifying patterns, and generating performance reports. Interpretation and action still need humans but data processing is highly automatable.",
+          "aiCapabilities": ["Data aggregation", "Pattern detection", "Report generation", "Anomaly alerting"]
+        },
+        {
+          "id": "task-003-3",
+          "name": "Market Research",
+          "description": "Conduct market research and competitive analysis",
+          "classification": "augment",
+          "automationPotential": 55,
+          "reasoning": "AI can gather and synthesize vast amounts of market data, but interpreting implications, validating with primary research, and understanding nuances requires human judgment.",
+          "aiCapabilities": ["Data gathering", "Sentiment analysis", "Trend identification", "Competitive monitoring"],
+          "humanAdvantages": ["Primary research", "Strategic interpretation", "Context application"]
+        },
+        {
+          "id": "task-003-4",
+          "name": "Strategy Development",
+          "description": "Develop marketing strategy and brand positioning",
+          "classification": "retain",
+          "automationPotential": 20,
+          "reasoning": "Marketing strategy requires understanding business objectives, competitive dynamics, customer psychology, and making bets on uncertain futures. This remains a deeply human activity.",
+          "aiCapabilities": ["Framework suggestions", "Case study retrieval", "Data synthesis"],
+          "humanAdvantages": ["Strategic vision", "Risk calibration", "Cross-functional alignment"]
+        },
+        {
+          "id": "task-003-5",
+          "name": "Team & Agency Management",
+          "description": "Lead marketing team and manage external agencies",
+          "classification": "retain",
+          "automationPotential": 15,
+          "reasoning": "People management, performance coaching, and agency relationships are fundamentally human activities requiring emotional intelligence and interpersonal skills.",
+          "aiCapabilities": ["Meeting scheduling", "Performance tracking", "Brief generation"],
+          "humanAdvantages": ["Leadership", "Motivation", "Conflict resolution", "Relationship building"]
+        }
+      ],
+      "automationExposure": {
+        "automatePercentage": 15,
+        "augmentPercentage": 40,
+        "retainPercentage": 45,
+        "overallExposureScore": 44,
+        "exposureCategory": "moderate",
+        "summary": "Marketing Manager roles will see significant productivity gains from AI tools, particularly in content creation and analytics. Strategic and leadership aspects remain firmly human."
+      },
+      "skillImplications": [
+        {
+          "id": "skill-003-1",
+          "skillName": "AI Content Tools",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Essential for productivity",
+          "rationale": "Marketers using AI for content creation and analysis will produce more with less. This is table stakes for modern marketing roles.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["Prompt craft", "Output editing", "Tool selection"]
+        },
+        {
+          "id": "skill-003-2",
+          "skillName": "Strategic Thinking",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Primary differentiator",
+          "rationale": "As tactical execution becomes more automated, the ability to set direction and make strategic bets becomes the core value of marketing leadership.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["Business acumen", "Competitive analysis", "Customer insight"]
+        },
+        {
+          "id": "skill-003-3",
+          "skillName": "Manual Reporting",
+          "currentRelevance": "decreasing",
+          "futureOutlook": "Largely automated",
+          "rationale": "Spending hours building campaign reports will be seen as inefficient when AI can generate comprehensive dashboards instantly.",
+          "developmentPriority": "low",
+          "adjacentSkills": ["Insight interpretation", "Stakeholder communication", "Data storytelling"]
+        }
+      ],
+      "methodology": [
+        {
+          "step": "1",
+          "title": "Taxonomy Resolution",
+          "description": "Job title mapped to O*NET Standard Occupational Classification.",
+          "dataSource": "O*NET Database v28.0",
+          "limitations": "Marketing roles vary significantly by company size and industry"
+        },
+        {
+          "step": "2",
+          "title": "Task Decomposition",
+          "description": "Role broken into constituent tasks using O*NET and marketing industry research.",
+          "dataSource": "O*NET Task Statements, AMA research",
+          "limitations": "B2B vs B2C marketing have different task distributions"
+        },
+        {
+          "step": "3",
+          "title": "AI Capability Matching",
+          "description": "Tasks evaluated against generative AI and marketing automation capabilities.",
+          "dataSource": "Analysis of tools like Jasper, Copy.ai, HubSpot AI",
+          "limitations": "Tool capabilities vary significantly"
+        },
+        {
+          "step": "4",
+          "title": "Exposure Calculation",
+          "description": "Weighted aggregation based on typical marketing manager time allocation.",
+          "dataSource": "Proprietary weighting methodology",
+          "limitations": "Does not account for industry-specific factors"
+        }
+      ],
+      "capabilityLevel": "moderate",
+      "analysisDate": "2024-01-15"
+    },
+    {
+      "id": "job-004",
+      "jobTitle": "Registered Nurse",
+      "taxonomyResolution": {
+        "inputTitle": "Registered Nurse",
+        "resolvedTitle": "Registered Nurses",
+        "onetCode": "29-1141.00",
+        "confidence": "high",
+        "alternativeTitles": ["RN", "Staff Nurse", "Clinical Nurse", "Hospital Nurse"],
+        "matchReasoning": "Direct match to O*NET occupation. Registered Nurses assess patient health problems and needs, develop and implement nursing care plans, and maintain medical records."
+      },
+      "tasks": [
+        {
+          "id": "task-004-1",
+          "name": "Documentation",
+          "description": "Maintain patient medical records and documentation",
+          "classification": "automate",
+          "automationPotential": 70,
+          "reasoning": "AI can significantly reduce documentation burden through voice-to-text, auto-population from monitoring systems, and intelligent form completion. Nurses spend 25%+ of time on documentation that can be largely automated.",
+          "aiCapabilities": ["Voice transcription", "Auto-population", "Template completion", "Compliance checking"]
+        },
+        {
+          "id": "task-004-2",
+          "name": "Patient Monitoring",
+          "description": "Monitor patient vital signs and condition",
+          "classification": "augment",
+          "automationPotential": 50,
+          "reasoning": "AI-powered monitoring can detect anomalies and alert nurses, but human judgment is needed for interpretation and response. Technology augments rather than replaces vigilant care.",
+          "aiCapabilities": ["Anomaly detection", "Early warning systems", "Trend analysis", "Alert prioritization"],
+          "humanAdvantages": ["Clinical judgment", "Contextual interpretation", "Patient observation beyond vitals"]
+        },
+        {
+          "id": "task-004-3",
+          "name": "Patient Care Planning",
+          "description": "Develop and update care plans based on patient needs",
+          "classification": "augment",
+          "automationPotential": 40,
+          "reasoning": "AI can suggest evidence-based care protocols and flag inconsistencies, but nurses must tailor plans to individual patients considering factors AI cannot fully assess.",
+          "aiCapabilities": ["Protocol suggestions", "Drug interaction checking", "Best practice retrieval"],
+          "humanAdvantages": ["Individual patient context", "Family considerations", "Holistic assessment"]
+        },
+        {
+          "id": "task-004-4",
+          "name": "Direct Patient Care",
+          "description": "Administer medications, treatments, and hands-on patient care",
+          "classification": "retain",
+          "automationPotential": 15,
+          "reasoning": "Physical care delivery, patient interaction, and hands-on clinical tasks require human presence, dexterity, and judgment. Robotics may assist but cannot replace the nurse.",
+          "aiCapabilities": ["Medication verification", "Procedure checklists", "Dosage calculation"],
+          "humanAdvantages": ["Physical care", "Human touch", "Situational adaptation", "Dexterity"]
+        },
+        {
+          "id": "task-004-5",
+          "name": "Patient & Family Communication",
+          "description": "Educate patients and families, provide emotional support",
+          "classification": "retain",
+          "automationPotential": 10,
+          "reasoning": "Empathetic communication during vulnerable moments, health education tailored to comprehension level, and emotional support are fundamentally human capabilities.",
+          "aiCapabilities": ["Education material generation", "Translation"],
+          "humanAdvantages": ["Empathy", "Emotional support", "Trust building", "Cultural sensitivity"]
+        }
+      ],
+      "automationExposure": {
+        "automatePercentage": 14,
+        "augmentPercentage": 36,
+        "retainPercentage": 50,
+        "overallExposureScore": 35,
+        "exposureCategory": "low",
+        "summary": "Nursing has relatively low automation exposure due to the hands-on, interpersonal nature of the work. AI will primarily reduce administrative burden and enhance clinical decision support."
+      },
+      "skillImplications": [
+        {
+          "id": "skill-004-1",
+          "skillName": "Health Informatics",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Essential for effective AI tool use",
+          "rationale": "Nurses who understand AI-powered monitoring, documentation systems, and clinical decision support will work more efficiently and catch AI errors.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["EHR proficiency", "Data interpretation", "Technology adoption"]
+        },
+        {
+          "id": "skill-004-2",
+          "skillName": "Complex Care Coordination",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Growing as routine tasks automate",
+          "rationale": "As AI handles documentation and monitoring alerts, nurses can focus more on complex care coordination and patient advocacy.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["Care management", "Interdisciplinary communication", "Patient advocacy"]
+        },
+        {
+          "id": "skill-004-3",
+          "skillName": "Manual Documentation",
+          "currentRelevance": "decreasing",
+          "futureOutlook": "Largely automated",
+          "rationale": "Detailed manual charting will be replaced by voice transcription and automated capture, freeing time for patient care.",
+          "developmentPriority": "low",
+          "adjacentSkills": ["AI documentation review", "Exception handling", "Quality audit"]
+        }
+      ],
+      "methodology": [
+        {
+          "step": "1",
+          "title": "Taxonomy Resolution",
+          "description": "Job title mapped to O*NET Standard Occupational Classification.",
+          "dataSource": "O*NET Database v28.0",
+          "limitations": "Nursing specialties have varying task distributions"
+        },
+        {
+          "step": "2",
+          "title": "Task Decomposition",
+          "description": "Role broken into constituent tasks using nursing research.",
+          "dataSource": "O*NET, ANA research on nursing time allocation",
+          "limitations": "Hospital vs outpatient settings differ significantly"
+        },
+        {
+          "step": "3",
+          "title": "AI Capability Matching",
+          "description": "Tasks evaluated against healthcare AI capabilities.",
+          "dataSource": "FDA-approved AI devices, clinical decision support systems",
+          "limitations": "Healthcare AI adoption faces regulatory constraints"
+        },
+        {
+          "step": "4",
+          "title": "Exposure Calculation",
+          "description": "Weighted aggregation based on typical RN time allocation studies.",
+          "dataSource": "Time-motion studies, proprietary methodology",
+          "limitations": "Regulatory and safety considerations slow AI adoption in healthcare"
+        }
+      ],
+      "capabilityLevel": "moderate",
+      "analysisDate": "2024-01-15"
+    },
+    {
+      "id": "job-005",
+      "jobTitle": "Data Entry Clerk",
+      "taxonomyResolution": {
+        "inputTitle": "Data Entry Clerk",
+        "resolvedTitle": "Data Entry Keyers",
+        "onetCode": "43-9021.00",
+        "confidence": "high",
+        "alternativeTitles": ["Data Entry Operator", "Data Entry Specialist", "Typist", "Keyboard Operator"],
+        "matchReasoning": "Direct match to O*NET occupation. Data Entry Keyers operate data entry devices to input data or codes into computers."
+      },
+      "tasks": [
+        {
+          "id": "task-005-1",
+          "name": "Data Entry",
+          "description": "Enter data from source documents into computer systems",
+          "classification": "automate",
+          "automationPotential": 95,
+          "reasoning": "OCR and AI document processing can extract data from structured and unstructured documents with high accuracy. This is the core use case for robotic process automation.",
+          "aiCapabilities": ["OCR", "Document AI", "Form extraction", "Handwriting recognition"]
+        },
+        {
+          "id": "task-005-2",
+          "name": "Data Verification",
+          "description": "Verify accuracy of entered data",
+          "classification": "automate",
+          "automationPotential": 85,
+          "reasoning": "AI can validate data against rules, flag anomalies, and cross-reference sources. Human review may be needed for edge cases but bulk verification is automated.",
+          "aiCapabilities": ["Validation rules", "Anomaly detection", "Cross-reference checking", "Pattern matching"]
+        },
+        {
+          "id": "task-005-3",
+          "name": "File Maintenance",
+          "description": "Organize and maintain electronic and physical files",
+          "classification": "automate",
+          "automationPotential": 80,
+          "reasoning": "Document management systems with AI can automatically classify, route, and organize files. Physical file handling is declining as organizations digitize.",
+          "aiCapabilities": ["Auto-classification", "Metadata extraction", "Intelligent filing", "Search optimization"]
+        },
+        {
+          "id": "task-005-4",
+          "name": "Error Resolution",
+          "description": "Investigate and resolve data discrepancies",
+          "classification": "augment",
+          "automationPotential": 50,
+          "reasoning": "AI can flag and often suggest resolutions for discrepancies, but complex cases requiring judgment calls or external communication still need humans.",
+          "aiCapabilities": ["Discrepancy detection", "Resolution suggestions", "Pattern analysis"],
+          "humanAdvantages": ["Judgment calls", "Exception handling", "External communication"]
+        },
+        {
+          "id": "task-005-5",
+          "name": "Process Improvement",
+          "description": "Identify and suggest improvements to data entry processes",
+          "classification": "retain",
+          "automationPotential": 30,
+          "reasoning": "Understanding process context, stakeholder needs, and practical implementation constraints requires human insight, though AI can surface inefficiency patterns.",
+          "aiCapabilities": ["Bottleneck identification", "Efficiency metrics"],
+          "humanAdvantages": ["Process context", "Stakeholder needs", "Implementation judgment"]
+        }
+      ],
+      "automationExposure": {
+        "automatePercentage": 72,
+        "augmentPercentage": 14,
+        "retainPercentage": 14,
+        "overallExposureScore": 82,
+        "exposureCategory": "very-high",
+        "summary": "Data Entry Clerk is among the most exposed occupations to AI automation. Core tasks are highly automatable, and the role is likely to significantly decline or transform into exception handling."
+      },
+      "skillImplications": [
+        {
+          "id": "skill-005-1",
+          "skillName": "RPA/Automation Tools",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Transition path to higher-value roles",
+          "rationale": "Data entry workers who learn to configure and maintain automation tools can transition to process automation roles rather than being displaced.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["UiPath/Automation Anywhere", "Process mapping", "Bot configuration"]
+        },
+        {
+          "id": "skill-005-2",
+          "skillName": "Exception Handling",
+          "currentRelevance": "increasing",
+          "futureOutlook": "Remaining human role in automated processes",
+          "rationale": "As bulk processing automates, the remaining work involves handling exceptions, edge cases, and errors that AI cannot resolve.",
+          "developmentPriority": "high",
+          "adjacentSkills": ["Problem solving", "Investigation", "Judgment"]
+        },
+        {
+          "id": "skill-005-3",
+          "skillName": "Typing Speed",
+          "currentRelevance": "decreasing",
+          "futureOutlook": "Minimal value as entry automates",
+          "rationale": "Raw data entry speed becomes irrelevant when AI can process documents faster than any human typist.",
+          "developmentPriority": "low",
+          "adjacentSkills": ["Quality review", "System navigation", "Process expertise"]
+        }
+      ],
+      "methodology": [
+        {
+          "step": "1",
+          "title": "Taxonomy Resolution",
+          "description": "Job title mapped to O*NET Standard Occupational Classification.",
+          "dataSource": "O*NET Database v28.0",
+          "limitations": "Data entry roles vary by industry and data type"
+        },
+        {
+          "step": "2",
+          "title": "Task Decomposition",
+          "description": "Role broken into constituent tasks using O*NET and RPA research.",
+          "dataSource": "O*NET Task Statements, RPA vendor case studies",
+          "limitations": "Assumes primarily digital data sources"
+        },
+        {
+          "step": "3",
+          "title": "AI Capability Matching",
+          "description": "Tasks evaluated against document AI and RPA capabilities.",
+          "dataSource": "Analysis of AWS Textract, Google Document AI, UiPath",
+          "limitations": "Accuracy depends heavily on document quality"
+        },
+        {
+          "step": "4",
+          "title": "Exposure Calculation",
+          "description": "Weighted aggregation based on typical data entry time allocation.",
+          "dataSource": "Proprietary weighting methodology",
+          "limitations": "Legacy systems may slow automation adoption"
+        }
+      ],
+      "capabilityLevel": "moderate",
+      "analysisDate": "2024-01-15"
+    }
+  ],
+  "searchIndex": [
+    { "id": "job-001", "title": "Financial Analyst", "category": "Finance" },
+    { "id": "job-002", "title": "Software Developer", "category": "Technology" },
+    { "id": "job-003", "title": "Marketing Manager", "category": "Marketing" },
+    { "id": "job-004", "title": "Registered Nurse", "category": "Healthcare" },
+    { "id": "job-005", "title": "Data Entry Clerk", "category": "Administrative" }
+  ]
+}
