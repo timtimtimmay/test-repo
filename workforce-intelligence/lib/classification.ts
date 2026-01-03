@@ -11,6 +11,16 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
+interface ParsedTask {
+  task: string;
+  classification: 'automate' | 'augment' | 'retain';
+  automationPotential: number;
+  reasoning: string;
+  aiCapabilities?: string[];
+  humanAdvantages?: string[];
+  dimensionScores?: Record<string, string>;
+}
+
 export interface ClassifiedTask {
   id: string;
   name: string;
@@ -160,7 +170,7 @@ function parseClassificationResponse(
       throw new Error('Invalid response structure: missing tasks array');
     }
 
-    return parsed.tasks.map((t: any, index: number) => {
+    return parsed.tasks.map((t: ParsedTask, index: number) => {
       const originalTask = originalTasks[index];
 
       return {

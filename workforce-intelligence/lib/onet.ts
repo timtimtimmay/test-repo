@@ -9,7 +9,7 @@ import searchIndex from '@/data/onet-search-index.json';
 export interface OnetOccupation {
   code: string;
   title: string;
-  description: string;
+  description?: string;
   alternateTitles: string[];
 }
 

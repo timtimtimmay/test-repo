@@ -83,8 +83,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
         classification: task.classification,
         automationPotential: task.automationPotential,
         reasoning: task.reasoning,
-        aiCapabilities: task.aiCapabilities,
-        humanAdvantages: task.humanAdvantages,
+        aiCapabilities: task.aiCapabilities || [],
+        humanAdvantages: task.humanAdvantages || [],
       })),
       automationExposure: {
         automatePercentage: classification.summary.automatePercentage,
