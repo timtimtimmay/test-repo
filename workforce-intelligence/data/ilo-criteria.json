@@ -1,0 +1,347 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "basedOn": "ILO Working Paper 140 (2025) - Generative AI and Jobs",
+    "description": "Task-level automation classification framework for workforce intelligence analysis",
+    "scoringScale": "0-100 where 0 = no automation potential, 100 = full automation without human involvement",
+    "lastUpdated": "2025-12-30"
+  },
+  "classificationFramework": {
+    "description": "Three-category framework distinguishing full automation, human-AI collaboration, and human-primary tasks",
+    "categories": {
+      "automate": {
+        "label": "Automate",
+        "scoreRange": "70-100",
+        "definition": "Tasks where GenAI can perform the core function with minimal or no human oversight, potentially eliminating the human role in task execution",
+        "characteristics": [
+          "Highly structured and data-driven",
+          "Routine, repetitive operations with clear rules",
+          "Pattern matching on structured datasets",
+          "Information processing and document generation",
+          "Data extraction, transformation, and loading",
+          "Calculation, formatting, and standardization",
+          "Template-based content creation",
+          "Structured analysis following established methodologies"
+        ],
+        "examples": [
+          "Extracting data from financial statements into spreadsheets",
+          "Generating standard compliance reports from templates",
+          "Scheduling meetings based on calendar availability",
+          "Categorizing customer inquiries by topic",
+          "Compiling research summaries from multiple sources",
+          "Creating first drafts of routine correspondence"
+        ],
+        "limitations": [
+          "Assumes reliable AI performance on task type",
+          "Requires structured inputs and clear success criteria",
+          "May still need human validation in high-stakes contexts",
+          "Organizational readiness and adoption barriers may delay implementation"
+        ]
+      },
+      "augment": {
+        "label": "Augment",
+        "scoreRange": "30-69",
+        "definition": "Tasks where GenAI significantly enhances human capability, but human judgment, creativity, or oversight remains essential to task completion",
+        "characteristics": [
+          "Complex analysis requiring interpretation and judgment",
+          "Creative work with human direction and refinement",
+          "Synthesis of diverse information sources with contextual nuance",
+          "Communication requiring emotional intelligence or persuasion",
+          "Decision-making with ambiguity or incomplete information",
+          "Tasks requiring domain expertise to validate AI outputs",
+          "Adaptation of general solutions to specific contexts",
+          "Work requiring accountability and ethical judgment"
+        ],
+        "examples": [
+          "Strategic planning: AI generates scenarios, human determines strategy",
+          "Code development: AI suggests implementations, developer reviews and refines",
+          "Content creation: AI drafts initial content, human adds expertise and voice",
+          "Financial modeling: AI builds models, analyst sets assumptions and validates",
+          "Legal research: AI finds relevant cases, lawyer interprets and applies",
+          "Medical diagnosis support: AI flags patterns, physician makes final diagnosis"
+        ],
+        "humanRole": [
+          "Setting objectives and constraints",
+          "Providing domain expertise and context",
+          "Validating and refining AI outputs",
+          "Making judgment calls on edge cases",
+          "Taking accountability for outcomes",
+          "Adapting to novel or changing circumstances"
+        ],
+        "aiRole": [
+          "Accelerating information gathering and processing",
+          "Generating initial drafts and options",
+          "Performing calculations and simulations",
+          "Identifying patterns and anomalies",
+          "Suggesting approaches and alternatives",
+          "Automating repetitive sub-tasks within the larger task"
+        ]
+      },
+      "retain": {
+        "label": "Retain",
+        "scoreRange": "0-29",
+        "definition": "Tasks that remain primarily human due to fundamental requirements for physical execution, deep interpersonal skills, novel problem-solving, or contextual judgment that current GenAI cannot replicate",
+        "characteristics": [
+          "Physical execution requiring dexterity, mobility, or sensory feedback",
+          "Building trust and managing complex stakeholder relationships",
+          "Novel problem-solving in ambiguous, unprecedented contexts",
+          "Ethical judgment and moral accountability",
+          "Real-time adaptation to dynamic human interactions",
+          "Spontaneous creativity and innovation",
+          "Understanding unstated needs and reading social cues",
+          "Tasks requiring physical presence and embodied interaction"
+        ],
+        "examples": [
+          "Conducting sensitive employee termination conversations",
+          "Performing surgical procedures or hands-on patient care",
+          "Negotiating high-stakes business deals with relationship dynamics",
+          "Leading organizational change through influence and inspiration",
+          "Conducting ethnographic research in unfamiliar cultural contexts",
+          "Making ethical decisions in gray-area scenarios",
+          "Building long-term client relationships based on trust",
+          "Crisis management requiring rapid contextual judgment"
+        ],
+        "whyHumanPrimary": [
+          "Physical presence and manipulation requirements",
+          "Trust, credibility, and relationship-building needs",
+          "Contextual nuance that defies codification",
+          "Moral responsibility and accountability requirements",
+          "Real-time responsiveness to human emotional states",
+          "Novel situations without precedent or training data",
+          "Stakeholder confidence requiring human judgment"
+        ]
+      }
+    }
+  },
+  "assessmentDimensions": {
+    "description": "Multi-dimensional framework for evaluating task automation potential, based on ILO methodology",
+    "dimensions": [
+      {
+        "dimension": "Task Structure",
+        "description": "Degree to which the task follows clear, codifiable rules and procedures",
+        "spectrum": {
+          "highAutomation": "Highly structured, rule-based, procedural tasks with clear success criteria",
+          "lowAutomation": "Unstructured, ambiguous tasks requiring contextual interpretation and judgment"
+        },
+        "scoringGuidance": {
+          "structured": "+30 to +50 points",
+          "semiStructured": "0 to +30 points",
+          "unstructured": "-30 to 0 points"
+        }
+      },
+      {
+        "dimension": "Cognitive vs Physical",
+        "description": "Whether task is primarily information-based or requires physical execution",
+        "spectrum": {
+          "highAutomation": "Pure information processing, data analysis, or content generation",
+          "lowAutomation": "Hands-on physical work requiring dexterity, mobility, or sensory integration"
+        },
+        "scoringGuidance": {
+          "pureCognitive": "+20 to +40 points",
+          "mixedCognitivePhysical": "-10 to +20 points",
+          "purePhysical": "-40 to -10 points"
+        },
+        "note": "GenAI excels at cognitive/information tasks but cannot directly perform physical actions"
+      },
+      {
+        "dimension": "Routine vs Novel",
+        "description": "Frequency and precedent for the specific task type",
+        "spectrum": {
+          "highAutomation": "Repetitive, routine tasks with extensive training data and precedent",
+          "lowAutomation": "Novel, unprecedented situations requiring creative problem-solving"
+        },
+        "scoringGuidance": {
+          "routine": "+20 to +40 points",
+          "occasional": "0 to +20 points",
+          "novel": "-40 to 0 points"
+        }
+      },
+      {
+        "dimension": "Human Judgment Requirement",
+        "description": "Extent to which task outcomes depend on subjective judgment, ethical reasoning, or contextual expertise",
+        "spectrum": {
+          "highAutomation": "Objective, verifiable outcomes with clear right/wrong answers",
+          "lowAutomation": "Subjective judgment, ethical nuance, or accountability requirements"
+        },
+        "scoringGuidance": {
+          "objective": "+20 to +40 points",
+          "partialJudgment": "0 to +20 points",
+          "heavyJudgment": "-40 to 0 points"
+        }
+      },
+      {
+        "dimension": "Interpersonal Intensity",
+        "description": "Degree to which task success depends on human relationships, trust, and emotional intelligence",
+        "spectrum": {
+          "highAutomation": "Minimal human interaction; task can be completed independently",
+          "lowAutomation": "Success depends on trust-building, reading social cues, and relationship management"
+        },
+        "scoringGuidance": {
+          "noInterpersonal": "+10 to +30 points",
+          "someInterpersonal": "-10 to +10 points",
+          "highInterpersonal": "-40 to -10 points"
+        }
+      },
+      {
+        "dimension": "Stakes and Accountability",
+        "description": "Consequences of errors and who bears responsibility for outcomes",
+        "spectrum": {
+          "highAutomation": "Low-stakes tasks where errors are easily corrected; AI can be accountable",
+          "lowAutomation": "High-stakes decisions requiring human accountability (legal, ethical, fiduciary)"
+        },
+        "scoringGuidance": {
+          "lowStakes": "+10 to +20 points",
+          "mediumStakes": "-10 to +10 points",
+          "highStakes": "-30 to -10 points"
+        },
+        "note": "Even if AI could technically perform the task, humans may need to remain accountable"
+      }
+    ]
+  },
+  "capabilityLevels": {
+    "description": "Adjustable assumptions about AI capability advancement and organizational adoption rates",
+    "levels": {
+      "conservative": {
+        "label": "Conservative",
+        "description": "Slower AI advancement, higher reliability thresholds, significant organizational adoption barriers",
+        "assumptions": {
+          "aiCapabilityGrowth": "Incremental improvements; current limitations persist for 3-5 years",
+          "reliabilityThreshold": "AI must achieve >95% accuracy before organizational trust",
+          "adoptionBarriers": "Regulatory, cultural, and infrastructure barriers slow deployment",
+          "humanOversight": "Extended period of human-in-the-loop requirements even for automatable tasks"
+        },
+        "scoreAdjustments": {
+          "automate": "Score threshold: 80-100 (stricter criteria)",
+          "augment": "Score threshold: 40-79",
+          "retain": "Score threshold: 0-39"
+        },
+        "typicalUseCase": "Risk-averse organizations, regulated industries, conservative workforce planning"
+      },
+      "moderate": {
+        "label": "Moderate",
+        "description": "Current AI trajectory continues with incremental improvements and gradual organizational adoption",
+        "assumptions": {
+          "aiCapabilityGrowth": "Steady progress on current trajectory; capabilities double every 2-3 years",
+          "reliabilityThreshold": "AI achieves 85-90% accuracy; human validation for edge cases",
+          "adoptionBarriers": "Normal organizational change management; 2-4 year adoption cycles",
+          "humanOversight": "Transition from direct execution to oversight and validation roles"
+        },
+        "scoreAdjustments": {
+          "automate": "Score threshold: 70-100 (baseline)",
+          "augment": "Score threshold: 30-69",
+          "retain": "Score threshold: 0-29"
+        },
+        "typicalUseCase": "Balanced workforce planning, most organizational scenarios"
+      },
+      "bold": {
+        "label": "Bold",
+        "description": "Rapid AI capability advancement and faster organizational adoption with cultural shift toward AI-first workflows",
+        "assumptions": {
+          "aiCapabilityGrowth": "Accelerating progress; breakthrough capabilities in reasoning, multimodal integration",
+          "reliabilityThreshold": "Organizations accept 80% accuracy with rapid iteration and learning",
+          "adoptionBarriers": "Minimal barriers; AI-native culture and infrastructure investments",
+          "humanOversight": "Rapid shift to exception handling; AI handles most routine and semi-routine work"
+        },
+        "scoreAdjustments": {
+          "automate": "Score threshold: 60-100 (more aggressive)",
+          "augment": "Score threshold: 25-59",
+          "retain": "Score threshold: 0-24"
+        },
+        "typicalUseCase": "Tech-forward organizations, scenario planning for rapid transformation"
+      }
+    }
+  },
+  "scoringMethodology": {
+    "description": "How to calculate automation potential scores for individual tasks",
+    "steps": [
+      {
+        "step": 1,
+        "action": "Baseline Score",
+        "description": "Start with a baseline of 50 (neutral)"
+      },
+      {
+        "step": 2,
+        "action": "Apply Dimension Scores",
+        "description": "Adjust baseline by applying the scoring guidance from each of the 6 assessment dimensions"
+      },
+      {
+        "step": 3,
+        "action": "Calculate Composite Score",
+        "description": "Sum the adjustments to arrive at a composite automation potential score (0-100)"
+      },
+      {
+        "step": 4,
+        "action": "Apply Capability Level Adjustment",
+        "description": "Based on selected capability level (conservative/moderate/bold), adjust category thresholds"
+      },
+      {
+        "step": 5,
+        "action": "Classify Task",
+        "description": "Assign task to category (Automate/Augment/Retain) based on final score and threshold"
+      },
+      {
+        "step": 6,
+        "action": "Document Reasoning",
+        "description": "Provide clear rationale explaining which dimensions drove the classification and why"
+      }
+    ],
+    "example": {
+      "task": "Prepare quarterly financial variance reports",
+      "dimensionScores": {
+        "taskStructure": "+40 (highly structured, follows template)",
+        "cognitivePhysical": "+30 (pure cognitive/data work)",
+        "routineNovel": "+30 (highly routine, quarterly repetition)",
+        "judgmentRequirement": "+10 (some interpretation needed)",
+        "interpersonalIntensity": "+10 (minimal interaction)",
+        "stakesAccountability": "-10 (medium stakes, needs human review)"
+      },
+      "compositeScore": 160,
+      "finalScore": 110,
+      "normalizedScore": 100,
+      "classification": "Automate",
+      "reasoning": "Highly structured, routine data processing task. AI can extract data, apply variance calculations, and populate report templates. Human oversight needed for anomaly investigation and strategic recommendations, but core task execution is automatable."
+    }
+  },
+  "usageGuidelines": {
+    "forLLMPrompts": {
+      "instruction": "Use the 'assessmentDimensions' section to systematically evaluate each task. Apply dimension scoring guidance, calculate composite score, and classify based on selected capability level thresholds.",
+      "outputFormat": "For each task, provide: (1) dimension-by-dimension scoring breakdown, (2) composite automation potential score (0-100), (3) classification (Automate/Augment/Retain), (4) detailed reasoning connecting task characteristics to classification criteria"
+    },
+    "forMethodologyDocumentation": {
+      "instruction": "Reference the 'classificationFramework' section to explain the three-category system and provide examples. Cite ILO Working Paper 140 (2025) as the research foundation.",
+      "emphasis": "This framework transforms jobs rather than eliminating them; most roles will have a mix of Automate/Augment/Retain tasks"
+    },
+    "forSkillsInference": {
+      "instruction": "Tasks classified as 'Automate' indicate skills that will decline in value. Tasks classified as 'Augment' indicate skills that must evolve (from execution to oversight). Tasks classified as 'Retain' indicate differentiating skills that increase in relative importance.",
+      "reasoning": "Connect skill implications directly to specific task shifts, not generic trends"
+    }
+  },
+  "limitationsAndCaveats": {
+    "organizationalContext": "This framework provides task-level technical potential, not organization-specific feasibility. Implementation depends on company culture, technical infrastructure, regulatory environment, and change management capability.",
+    "timingUncertainty": "Capability levels provide scenarios, not predictions. Actual AI advancement and adoption rates are inherently uncertain.",
+    "taskInterconnection": "Tasks don't exist in isolation. Even highly automatable tasks may require human involvement due to dependencies on other human-primary tasks in the workflow.",
+    "humanPreference": "Some tasks may remain human-performed by choice (customer preference, brand differentiation, workforce strategy) even when automation is technically feasible.",
+    "continuousEvolution": "AI capabilities are rapidly evolving. This framework should be updated regularly to reflect state-of-the-art GenAI performance.",
+    "jobVsTaskAutomation": "High task automation ≠ job automation. Most jobs will be transformed through a mix of automated, augmented, and retained tasks rather than eliminated entirely."
+  },
+  "researchFoundation": {
+    "primarySource": {
+      "title": "Generative AI and Jobs: A Refined Global Index of Occupational Exposure",
+      "authors": "International Labour Organization",
+      "publication": "ILO Working Paper 140",
+      "year": 2025,
+      "url": "https://webapps.ilo.org/static/english/intserv/working-papers/wp140/index.html",
+      "keyContribution": "Multi-method approach combining algorithmic assessment (GPT-4o, Gemini) with expert validation and national survey data across 29,753 tasks"
+    },
+    "additionalReferences": [
+      {
+        "title": "Generative AI and Jobs: A global analysis of potential effects on job quantity and quality",
+        "authors": "Pawel Gmyrek, Janine Berg, David Bescond",
+        "publication": "ILO Working Paper 96",
+        "year": 2023,
+        "note": "Original framework; 2025 update refined methodology and reduced scoring variability"
+      }
+    ],
+    "acknowledgment": "This classification framework is based on but extends ILO research by translating occupational-level exposure scores into actionable task-level classification criteria with scenario-based capability assumptions."
+  }
+}
