@@ -337,7 +337,7 @@ ANTHROPIC_MODEL=claude-sonnet-4-20250514
 ## Contact & Portfolio
 
 **Project Owner:** Tim Dickinson
-**Portfolio:** https://strategy-practitioner.com
+**Portfolio:** https://aistrategypractitioner.com
 **Positioning:** Strategy Practitioner - combining strategic thinking with technical implementation
 
 ---

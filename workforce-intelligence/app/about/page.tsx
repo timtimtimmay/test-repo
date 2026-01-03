@@ -145,7 +145,7 @@ export default function AboutPage() {
 
             <div className="border-t border-gray-200 pt-4 space-y-3">
               <a
-                href="https://strategy-practitioner.com"
+                href="https://aistrategypractitioner.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
@@ -188,7 +188,7 @@ export default function AboutPage() {
               I help organizations navigate workforce transformation and build practical AI solutions.
             </p>
             <a
-              href="https://strategy-practitioner.com"
+              href="https://aistrategypractitioner.com"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-slate-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 transition-colors"

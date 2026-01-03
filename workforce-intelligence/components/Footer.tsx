@@ -7,7 +7,7 @@ export default function Footer() {
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <span>Built by</span>
             <a
-              href="https://strategy-practitioner.com"
+              href="https://aistrategypractitioner.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-gray-900 hover:text-slate-700 transition-colors"
@@ -16,12 +16,12 @@ export default function Footer() {
             </a>
             <span className="text-gray-400">|</span>
             <a
-              href="https://strategy-practitioner.com"
+              href="https://aistrategypractitioner.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-slate-700 hover:text-slate-900 transition-colors"
             >
-              strategy-practitioner.com
+              aistrategypractitioner.com
             </a>
           </div>
 

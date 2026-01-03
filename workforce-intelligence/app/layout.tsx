@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   title: "Workforce Task Intelligence | Tim Dickinson",
   description: "AI-powered workforce task analysis tool demonstrating methodology for assessing automation exposure and skill implications across job roles.",
   keywords: ["workforce analytics", "AI automation", "task analysis", "skill development", "O*NET"],
-  authors: [{ name: "Tim Dickinson", url: "https://strategy-practitioner.com" }],
+  authors: [{ name: "Tim Dickinson", url: "https://aistrategypractitioner.com" }],
   openGraph: {
     title: "Workforce Task Intelligence",
     description: "AI-powered workforce task analysis and automation exposure assessment",
-    url: "https://strategy-practitioner.com",
+    url: "https://aistrategypractitioner.com",
     siteName: "Workforce Task Intelligence",
     type: "website",
   },
