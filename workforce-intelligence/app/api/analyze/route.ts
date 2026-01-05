@@ -100,18 +100,25 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
             : 'This role will be significantly transformed through AI augmentation, with humans and AI working in collaboration.'
         }`,
       },
-      skillImplications: [
-        {
-          id: 'skill-placeholder',
-          skillName: 'Skills analysis coming soon',
-          currentRelevance: 'stable',
-          futureOutlook: 'Skills inference will be added in the next iteration',
-          rationale:
-            'For this prototype, we are focusing on task classification. Skills inference based on task shifts will be implemented next.',
-          developmentPriority: 'medium',
-          adjacentSkills: [],
-        },
-      ],
+      skillImplications: classification.skills.length > 0
+        ? classification.skills.map((skill, index) => ({
+            id: `skill-${index + 1}`,
+            skillName: skill.skillName,
+            currentRelevance: skill.currentRelevance,
+            futureOutlook: skill.futureOutlook,
+            rationale: skill.rationale,
+            developmentPriority: skill.developmentPriority,
+            adjacentSkills: skill.adjacentSkills,
+          }))
+        : [{
+            id: 'skill-fallback',
+            skillName: 'Skills analysis unavailable',
+            currentRelevance: 'stable' as const,
+            futureOutlook: 'Unable to generate skill implications for this analysis.',
+            rationale: 'The AI model did not return skill data. This may occur for unusual occupations.',
+            developmentPriority: 'medium' as const,
+            adjacentSkills: [],
+          }],
       methodology: [
         {
           step: '1',
@@ -123,9 +130,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
         {
           step: '2',
           title: 'Task Decomposition',
-          description: `Retrieved ${onetTasks.length} task statements from O*NET database. Analyzed first 15 tasks for classification.`,
+          description: `Retrieved ${onetTasks.length} task statements from O*NET database. Analyzed ${Math.min(onetTasks.length, 25)} tasks for classification.`,
           dataSource: 'O*NET Task Statements',
-          limitations: 'Tasks are derived from US labor market data; may not reflect all organizational contexts',
+          limitations: onetTasks.length > 25
+            ? `Analyzed first 25 of ${onetTasks.length} tasks due to processing constraints`
+            : 'All tasks analyzed',
         },
         {
           step: '3',
@@ -133,6 +142,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
           description: `Applied ILO-based 6-dimensional assessment framework using ${body.capabilityLevel} AI capability assumptions.`,
           dataSource: 'ILO Working Paper 140 (2025) - Generative AI and Jobs',
           limitations: 'Classification reflects technical potential, not organizational readiness or adoption timeline',
+        },
+        {
+          step: '4',
+          title: 'Skills Inference',
+          description: 'Derived skill implications by analyzing patterns across classified tasks. Identified declining skills (from automatable tasks), evolving skills (from augmented tasks), and differentiating skills (from retained tasks).',
+          dataSource: 'ILO Working Paper 140 (2025) - Skills Framework',
+          limitations: 'Skills are inferred from task analysis, not validated against actual skill databases',
         },
       ],
       capabilityLevel: body.capabilityLevel,

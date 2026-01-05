@@ -1,11 +1,15 @@
 # Workforce Intelligence App - Development Summary
 
-**Date:** December 30, 2025
-**Status:** Working end-to-end prototype ✅
+**Date:** January 5, 2026
+**Status:** Deployed MVP ✅
+
+## Live Application
+
+**Production URL:** https://workforce-intelligence.vercel.app
 
 ## Overview
 
-Built a working workforce intelligence application that analyzes job roles for AI automation exposure using O*NET data and ILO-based classification framework. Users enter a job title, and the app classifies each task as Automate/Augment/Retain with detailed reasoning.
+Built and deployed a working workforce intelligence application that analyzes job roles for AI automation exposure using O*NET data and ILO-based classification framework. Users enter a job title, and the app classifies each task as Automate/Augment/Retain with detailed reasoning.
 
 ## What Was Built
 
@@ -142,18 +146,22 @@ ResultsPanel.tsx → Display with charts
 
 ## Current Status
 
-### ✅ Working Features
+### ✅ Deployed & Working
+- **Production deployment on Vercel** (https://workforce-intelligence.vercel.app)
 - Real O*NET data integration (1,016 occupations)
 - Fuzzy job title matching (57,521 searchable titles)
-- Task classification with ILO-based framework
+- Task classification with ILO-based framework (up to 25 tasks per occupation)
+- **Skills inference** - 6-8 actionable skill implications per analysis
 - Three capability levels (Conservative/Moderate/Bold)
 - Detailed reasoning for each classification
 - Exposure scoring and categorization
 - Professional UI with charts and methodology transparency
 - End-to-end flow tested and validated
+- Portfolio page (https://workforce-intelligence.vercel.app/portfolio)
+- TypeScript build optimized for production
+- Vercel deployment workflow documented
 
 ### ⏸ Not Yet Implemented
-- Skills inference (shows placeholder data)
 - PDF export functionality
 - LinkedIn sharing
 - Custom task addition
@@ -165,15 +173,20 @@ ResultsPanel.tsx → Display with charts
 
 **Occupation Match:** Financial and Investment Analysts (13-2051.00)
 
-**Task Classifications:**
+**Task Classifications (25 tasks analyzed):**
 - **Automate (85):** "Draw charts and graphs using spreadsheets" - Highly structured, AI can auto-generate
 - **Augment (70):** "Employ financial models to develop solutions" - AI runs models, human provides judgment
 - **Retain (10):** "Develop and maintain client relationships" - Fundamentally human, requires trust-building
 
-**Overall Exposure:** 50/100 (High exposure category)
-- 13% tasks can be automated
-- 60% tasks will be augmented by AI
-- 27% tasks remain primarily human
+**Overall Exposure:** 55/100 (High exposure category)
+- 20% tasks can be automated
+- 64% tasks will be augmented by AI
+- 16% tasks remain primarily human
+
+**Skills Inference (7 skills identified):**
+- **Declining:** Document/Report Generation, Financial Data Processing (low priority)
+- **Evolving:** Investment Analysis Oversight, AI-Human Collaboration (high priority)
+- **Differentiating:** Client Advisory, Strategic Relationship Building, Physical Assessment (high priority)
 
 ## Development Notes
 
@@ -215,15 +228,16 @@ Implement Prompt 3 from original plan:
 
 ### 3. Content & Documentation (Medium Priority)
 - Write Methodology page content
-- Create About page
+- Enhance About page
 - Document framework publicly
 - Prepare LinkedIn announcement
 
-### 4. Deployment (Lower Priority)
-- Deploy to Vercel
-- Configure production environment variables
+### 4. Production Optimization (Medium Priority)
+- ✅ ~~Deploy to Vercel~~ (COMPLETED)
+- ✅ ~~Configure production environment variables~~ (COMPLETED)
 - Set up analytics
-- Test with real users
+- Gather user feedback
+- Add caching for API responses
 
 ### 5. UI Enhancements (On Hold)
 - User requested to defer UI updates for now
@@ -264,6 +278,22 @@ cp .env.example .env.local
 ANTHROPIC_API_KEY=your_actual_api_key_here
 ANTHROPIC_MODEL=claude-sonnet-4-20250514
 ```
+
+### Deployment
+```bash
+# Build and verify locally
+npm run build
+
+# Deploy to Vercel production
+vercel --prod --yes
+
+# Production URL
+# https://workforce-intelligence.vercel.app
+```
+
+**Environment Variables in Vercel:**
+- Set `ANTHROPIC_API_KEY` in Vercel dashboard
+- https://vercel.com/tim-dickinsons-projects/workforce-intelligence/settings/environment-variables
 
 ## Technical Architecture
 
@@ -324,13 +354,13 @@ ANTHROPIC_MODEL=claude-sonnet-4-20250514
 - [x] Claude API integration functional
 - [x] End-to-end flow tested
 - [x] Results are defensible and detailed
-- [x] Cost per analysis <$0.05
-- [x] Processing time acceptable
+- [x] Cost per analysis <$0.10 (~$0.05-0.06 with skills inference)
+- [x] Processing time acceptable (~75-90 seconds)
 
 **Production Goals:** 🚧 In progress
-- [ ] Skills inference implemented
+- [x] **Skills inference implemented** ✅ (6-8 skills per analysis)
 - [ ] Methodology page complete
-- [ ] Deployed to production
+- [x] **Deployed to production** ✅ (https://workforce-intelligence.vercel.app)
 - [ ] User feedback collected
 - [ ] 500 unique visitors in first month
 
@@ -391,6 +421,69 @@ ANTHROPIC_MODEL=claude-sonnet-4-20250514
 
 ---
 
-*Last Updated: December 30, 2025 - 3:00 PM*
-*Status: Working prototype complete and tested ✅*
-*Next: Skills inference OR deployment*
+### January 3, 2026 - Production Deployment
+
+**Accomplished:**
+- ✅ Fixed TypeScript type errors for production build
+  - Added `ParsedTask` interface in classification.ts
+  - Made `aiCapabilities` and `humanAdvantages` default to empty arrays
+  - Made `OnetOccupation.description` optional
+- ✅ Deployed to Vercel production
+  - URL: https://workforce-intelligence.vercel.app
+  - Environment variables configured in Vercel dashboard
+  - Vercel project linked to GitHub repository
+- ✅ Created deployment skill documentation
+  - `.claude/skills/deploy-workforce-app/SKILL.md` (managed by Claude Code)
+  - Documents local → GitHub → Vercel workflow
+- ✅ Added portfolio page
+  - `/portfolio` route showcasing projects
+  - Updated site URLs from strategy-practitioner.com to aistrategypractitioner.com
+  - Enhanced professional presentation
+
+**Commits:**
+- `8b6d105` - Fix TypeScript type errors for Vercel build
+- `20da851` - Add deploy-workforce-app skill
+- `3243e71` - Add portfolio page and update site URLs
+
+**Status:**
+- MVP successfully deployed and accessible
+- Production build passing
+- Ready for user feedback and testing
+
+---
+
+### January 5, 2026 - Skills Inference & Task Limit Expansion
+
+**Accomplished:**
+- ✅ Increased task classification limit from 15 to 25 tasks
+  - Captures 77% of occupations completely
+  - Better coverage for comprehensive analysis
+- ✅ Implemented real skills inference (replacing placeholder)
+  - 6-8 skill implications generated per analysis
+  - Three skill categories: Declining, Evolving, Differentiating
+  - Each skill connects to specific classified tasks
+  - Development priority recommendations included
+- ✅ Updated prompt to include ILO-based skills framework
+- ✅ Added skills parsing and API integration
+- ✅ Tested across multiple occupations:
+  - Financial Analyst: 25 tasks, 7 skills, 55 exposure
+  - Registered Nurse: 25 tasks, 8 skills, 47 exposure
+  - Software Developer: 17 tasks, 8 skills, 54 exposure
+  - Electrician: 21 tasks, 8 skills, 31 exposure
+  - Marketing Manager: 25 tasks, 7 skills, 50 exposure
+
+**Files Modified:**
+- `lib/classification.ts` - Task limit, prompt expansion, skills parsing
+- `app/api/analyze/route.ts` - Skills mapping, methodology update
+
+**Performance Impact:**
+- Cost: ~$0.025 → ~$0.05-0.06 per analysis
+- Time: ~60s → ~75-90s per analysis
+- Value: Comprehensive task coverage + actionable skill insights
+
+---
+
+*Last Updated: January 5, 2026*
+*Status: Enhanced MVP with Skills Inference ✅*
+*Live: https://workforce-intelligence.vercel.app*
+*Next: Caching, rate limiting, user feedback collection*

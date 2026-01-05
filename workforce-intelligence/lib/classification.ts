@@ -11,6 +11,9 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
+// Configuration constants
+const DEFAULT_TASK_LIMIT = 25;
+
 interface ParsedTask {
   task: string;
   classification: 'automate' | 'augment' | 'retain';
@@ -19,6 +22,26 @@ interface ParsedTask {
   aiCapabilities?: string[];
   humanAdvantages?: string[];
   dimensionScores?: Record<string, string>;
+}
+
+interface ParsedSkill {
+  skillName: string;
+  currentRelevance: 'increasing' | 'stable' | 'decreasing';
+  futureOutlook: string;
+  rationale: string;
+  developmentPriority: 'high' | 'medium' | 'low';
+  adjacentSkills: string[];
+  relatedTaskNumbers: number[];
+}
+
+export interface SkillInferenceResult {
+  skillName: string;
+  currentRelevance: 'increasing' | 'stable' | 'decreasing';
+  futureOutlook: string;
+  rationale: string;
+  developmentPriority: 'high' | 'medium' | 'low';
+  adjacentSkills: string[];
+  relatedTasks: string[]; // Task IDs that drive this skill implication
 }
 
 export interface ClassifiedTask {
@@ -35,6 +58,7 @@ export interface ClassifiedTask {
 
 export interface ClassificationResult {
   tasks: ClassifiedTask[];
+  skills: SkillInferenceResult[];
   summary: {
     automatePercentage: number;
     augmentPercentage: number;
@@ -115,6 +139,30 @@ Assumptions:
 
 ${tasks.map((t, i) => `${i + 1}. ${t.task}`).join('\n')}
 
+## SKILLS INFERENCE
+
+After classifying all tasks, derive skill implications following the ILO framework guidance:
+
+### Declining Skills (from AUTOMATE tasks)
+- Identify 2-3 skills that will decline in value
+- These should be directly tied to tasks you classified as AUTOMATE
+- Focus on skills where AI can fully replace human execution
+- Development priority: LOW (redirect energy elsewhere)
+
+### Evolving Skills (from AUGMENT tasks)
+- Identify 2-4 skills that must evolve from execution to oversight
+- These should connect to AUGMENT-classified tasks
+- Describe how the skill shifts from "doing" to "directing/validating"
+- Development priority: HIGH (critical transition)
+
+### Differentiating Skills (from RETAIN tasks)
+- Identify 2-3 skills that increase in relative value
+- These should connect to RETAIN-classified tasks
+- Explain why these skills become competitive differentiators
+- Development priority: HIGH (invest for differentiation)
+
+CRITICAL: Connect each skill implication to specific task numbers you classified. Do not provide generic advice.
+
 ## OUTPUT FORMAT
 
 Return ONLY a valid JSON object with this exact structure:
@@ -138,16 +186,56 @@ Return ONLY a valid JSON object with this exact structure:
         "stakesAccountability": "-10 (medium stakes)"
       }
     }
+  ],
+  "skills": [
+    {
+      "skillName": "Descriptive skill name",
+      "currentRelevance": "increasing" | "stable" | "decreasing",
+      "futureOutlook": "2-3 sentence description of how this skill will evolve in the AI era",
+      "rationale": "Explanation connecting this skill implication to specific classified tasks by number",
+      "developmentPriority": "high" | "medium" | "low",
+      "adjacentSkills": ["related skill 1", "related skill 2"],
+      "relatedTaskNumbers": [1, 5, 8]
+    }
   ]
 }
 
 CRITICAL REQUIREMENTS:
 - Return ONLY the JSON object, no additional text
 - Include all ${tasks.length} tasks in the output
+- Include 6-8 skill implications (mix of declining, evolving, differentiating)
 - Automation potential must be 0-100
 - Classification must be exactly "automate", "augment", or "retain"
 - Reasoning must reference specific dimensions and be 2-3 sentences minimum
-- DimensionScores must show your thinking for all 6 dimensions`;
+- DimensionScores must show your thinking for all 6 dimensions
+- Each skill must reference specific task numbers that drive the implication
+- currentRelevance must be exactly "increasing", "stable", or "decreasing"
+- developmentPriority must be exactly "high", "medium", or "low"`;
+}
+
+/**
+ * Parse skills from Claude's response
+ */
+function parseSkillsResponse(
+  parsed: { skills?: ParsedSkill[] },
+  classifiedTasks: ClassifiedTask[]
+): SkillInferenceResult[] {
+  if (!parsed.skills || !Array.isArray(parsed.skills)) {
+    console.warn('No skills found in response, returning empty array');
+    return [];
+  }
+
+  return parsed.skills.map((s) => ({
+    skillName: s.skillName || 'Unnamed skill',
+    currentRelevance: s.currentRelevance || 'stable',
+    futureOutlook: s.futureOutlook || 'No outlook provided',
+    rationale: s.rationale || 'No rationale provided',
+    developmentPriority: s.developmentPriority || 'medium',
+    adjacentSkills: s.adjacentSkills || [],
+    relatedTasks: (s.relatedTaskNumbers || [])
+      .filter((n) => n > 0 && n <= classifiedTasks.length)
+      .map((n) => classifiedTasks[n - 1].id),
+  }));
 }
 
 /**
@@ -156,7 +244,7 @@ CRITICAL REQUIREMENTS:
 function parseClassificationResponse(
   responseText: string,
   originalTasks: OnetTask[]
-): ClassifiedTask[] {
+): { tasks: ClassifiedTask[]; skills: SkillInferenceResult[] } {
   try {
     // Extract JSON from response (in case Claude adds any wrapper text)
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
@@ -170,7 +258,7 @@ function parseClassificationResponse(
       throw new Error('Invalid response structure: missing tasks array');
     }
 
-    return parsed.tasks.map((t: ParsedTask, index: number) => {
+    const classifiedTasks = parsed.tasks.map((t: ParsedTask, index: number) => {
       const originalTask = originalTasks[index];
 
       return {
@@ -185,6 +273,10 @@ function parseClassificationResponse(
         dimensionScores: t.dimensionScores || {},
       };
     });
+
+    const skills = parseSkillsResponse(parsed, classifiedTasks);
+
+    return { tasks: classifiedTasks, skills };
   } catch (error) {
     console.error('Error parsing classification response:', error);
     console.error('Response text:', responseText);
@@ -256,6 +348,7 @@ export async function classifyTasks(
   if (tasks.length === 0) {
     return {
       tasks: [],
+      skills: [],
       summary: {
         automatePercentage: 0,
         augmentPercentage: 0,
@@ -266,14 +359,14 @@ export async function classifyTasks(
     };
   }
 
-  // Limit to first 15 tasks to keep costs reasonable for prototype
-  const tasksToClassify = tasks.slice(0, 15);
+  // Limit tasks to configured maximum for cost control
+  const tasksToClassify = tasks.slice(0, DEFAULT_TASK_LIMIT);
 
   const prompt = buildClassificationPrompt(tasksToClassify, occupationTitle, capabilityLevel);
 
   const response = await anthropic.messages.create({
     model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514',
-    max_tokens: 8000,
+    max_tokens: 12000, // Increased to handle 25 tasks + skills
     temperature: 0.3, // Lower temperature for more consistent classification
     messages: [
       {
@@ -285,11 +378,17 @@ export async function classifyTasks(
 
   const responseText = response.content[0].type === 'text' ? response.content[0].text : '';
 
-  const classifiedTasks = parseClassificationResponse(responseText, tasksToClassify);
+  // Check for potential truncation
+  if (response.stop_reason === 'max_tokens') {
+    console.warn('Response may be truncated due to max_tokens limit');
+  }
+
+  const { tasks: classifiedTasks, skills } = parseClassificationResponse(responseText, tasksToClassify);
   const summary = calculateSummary(classifiedTasks);
 
   return {
     tasks: classifiedTasks,
+    skills,
     summary,
   };
 }
