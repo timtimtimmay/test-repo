@@ -1,91 +1,16 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { JobAnalysis, CapabilityLevel, SearchResult, Task, AutomationExposure, SkillImplication } from '@/lib/types';
+import { JobAnalysis, CapabilityLevel, SearchResult } from '@/lib/types';
 import SearchInput from '@/components/SearchInput';
 import ResultsPanel, { ResultsPanelSkeleton, ResultsPanelError } from '@/components/ResultsPanel';
-import sampleData from '@/data/sample-jobs.json';
+import searchIndex from '@/data/onet-search-index.json';
 
-// Transform sample data based on capability level
-function adjustForCapabilityLevel(
-  analysis: JobAnalysis,
-  level: CapabilityLevel
-): JobAnalysis {
-  const multipliers = {
-    conservative: { automate: 0.7, augment: 0.85, retain: 1.2 },
-    moderate: { automate: 1, augment: 1, retain: 1 },
-    bold: { automate: 1.3, augment: 1.15, retain: 0.7 },
-  };
-
-  const m = multipliers[level];
-
-  // Adjust tasks
-  const adjustedTasks: Task[] = analysis.tasks.map((task) => {
-    let newPotential = task.automationPotential;
-    if (task.classification === 'automate') {
-      newPotential = Math.min(100, Math.round(task.automationPotential * m.automate));
-    } else if (task.classification === 'augment') {
-      newPotential = Math.min(100, Math.round(task.automationPotential * m.augment));
-    } else {
-      newPotential = Math.max(5, Math.round(task.automationPotential * m.retain));
-    }
-    return { ...task, automationPotential: newPotential };
-  });
-
-  // Recalculate exposure
-  const totalTasks = adjustedTasks.length;
-  const automateTasks = adjustedTasks.filter((t) => t.classification === 'automate').length;
-  const augmentTasks = adjustedTasks.filter((t) => t.classification === 'augment').length;
-
-  const automatePercentage = Math.round((automateTasks / totalTasks) * 100);
-  const augmentPercentage = Math.round((augmentTasks / totalTasks) * 100);
-  const retainPercentage = 100 - automatePercentage - augmentPercentage;
-
-  const avgPotential = Math.round(
-    adjustedTasks.reduce((sum, t) => sum + t.automationPotential, 0) / totalTasks
-  );
-
-  let exposureCategory: 'low' | 'moderate' | 'high' | 'very-high';
-  if (avgPotential >= 70) exposureCategory = 'very-high';
-  else if (avgPotential >= 50) exposureCategory = 'high';
-  else if (avgPotential >= 30) exposureCategory = 'moderate';
-  else exposureCategory = 'low';
-
-  const adjustedExposure: AutomationExposure = {
-    ...analysis.automationExposure,
-    automatePercentage,
-    augmentPercentage,
-    retainPercentage,
-    overallExposureScore: avgPotential,
-    exposureCategory,
-  };
-
-  // Adjust skill priorities based on level
-  const adjustedSkills: SkillImplication[] = analysis.skillImplications.map((skill) => {
-    if (level === 'bold' && skill.currentRelevance === 'decreasing') {
-      return {
-        ...skill,
-        developmentPriority: 'low' as const,
-        futureOutlook: skill.futureOutlook + ' (accelerated timeline)',
-      };
-    }
-    if (level === 'conservative' && skill.currentRelevance === 'increasing') {
-      return {
-        ...skill,
-        developmentPriority: 'medium' as const,
-        futureOutlook: skill.futureOutlook + ' (extended timeline)',
-      };
-    }
-    return skill;
-  });
-
-  return {
-    ...analysis,
-    tasks: adjustedTasks,
-    automationExposure: adjustedExposure,
-    skillImplications: adjustedSkills,
-    capabilityLevel: level,
-  };
+interface OnetSearchItem {
+  title: string;
+  code: string;
+  isPrimary: boolean;
+  primaryTitle: string;
 }
 
 export default function HomePage() {
@@ -95,28 +20,38 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<JobAnalysis | null>(null);
 
-  // Search data from sample jobs
-  const searchData: SearchResult[] = sampleData.searchIndex;
+  // Search data from O*NET index - transform to SearchResult format
+  const searchData: SearchResult[] = (searchIndex as OnetSearchItem[]).map((item) => ({
+    id: item.code,
+    title: item.title,
+    category: item.isPrimary ? 'Primary' : item.primaryTitle,
+  }));
 
-  // Handle job selection
+  // Handle job selection - call real API
   const handleSelectJob = useCallback(async (result: SearchResult) => {
     setSelectedJob(result);
     setIsLoading(true);
     setError(null);
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
     try {
-      const job = sampleData.jobs.find((j) => j.id === result.id);
-      if (!job) {
-        throw new Error('Job not found in sample data');
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jobTitle: result.title,
+          capabilityLevel: capabilityLevel,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || 'Analysis failed');
       }
 
-      // Type assertion since we know the structure matches
-      const jobAnalysis = job as unknown as JobAnalysis;
-      const adjusted = adjustForCapabilityLevel(jobAnalysis, capabilityLevel);
-      setAnalysis(adjusted);
+      setAnalysis(data.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -124,18 +59,14 @@ export default function HomePage() {
     }
   }, [capabilityLevel]);
 
-  // Update analysis when capability level changes
+  // Re-analyze when capability level changes
   const handleCapabilityChange = useCallback((level: CapabilityLevel) => {
     setCapabilityLevel(level);
-    if (analysis) {
-      const job = sampleData.jobs.find((j) => j.id === analysis.id);
-      if (job) {
-        const jobAnalysis = job as unknown as JobAnalysis;
-        const adjusted = adjustForCapabilityLevel(jobAnalysis, level);
-        setAnalysis(adjusted);
-      }
+    if (selectedJob) {
+      // Re-run analysis with new capability level
+      handleSelectJob(selectedJob);
     }
-  }, [analysis]);
+  }, [selectedJob, handleSelectJob]);
 
   // Retry handler
   const handleRetry = useCallback(() => {
@@ -172,7 +103,7 @@ export default function HomePage() {
               disabled={isLoading}
             />
             <p className="mt-2 text-xs text-gray-500">
-              Try: Financial Analyst, Software Developer, Marketing Manager, Registered Nurse, Data Entry Clerk
+              Search across 57,521 job titles from O*NET database (e.g., Financial Analyst, Software Developer, Registered Nurse, Electrician)
             </p>
           </div>
 
@@ -258,9 +189,9 @@ export default function HomePage() {
               About This Analysis
             </h3>
             <p className="text-sm text-slate-600">
-              This tool demonstrates a methodology for assessing workforce automation exposure using
-              O*NET occupational data and AI capability frameworks. Results shown are illustrative
-              using sample data. For the complete methodology, visit the{' '}
+              This tool analyzes workforce automation exposure using O*NET occupational data
+              and ILO-based classification frameworks. Analysis is powered by Claude AI and takes
+              60-90 seconds per job title. For the complete methodology, visit the{' '}
               <a href="/methodology" className="text-slate-800 font-medium hover:underline">
                 Methodology page
               </a>.
