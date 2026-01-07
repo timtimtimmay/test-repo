@@ -1,52 +1,94 @@
 'use client';
 
-import { JobAnalysis } from '@/lib/types';
-import TaxonomyResolution from './TaxonomyResolution';
+import { useState } from 'react';
+import { JobAnalysis, TaskClassification } from '@/lib/types';
+import TaxonomyInline from './TaxonomyInline';
 import TaskBreakdown from './TaskBreakdown';
-import AutomationExposure from './AutomationExposure';
+import AutomationExposureHero from './AutomationExposureHero';
 import SkillsImplications from './SkillsImplications';
 
 interface ResultsPanelProps {
   analysis: JobAnalysis;
 }
 
+export type ClassificationFilter = TaskClassification | 'all';
+
 export default function ResultsPanel({ analysis }: ResultsPanelProps) {
+  const [selectedFilter, setSelectedFilter] = useState<ClassificationFilter>('all');
+
+  // Count tasks by classification
+  const taskCounts = {
+    all: analysis.tasks.length,
+    automate: analysis.tasks.filter(t => t.classification === 'automate').length,
+    augment: analysis.tasks.filter(t => t.classification === 'augment').length,
+    retain: analysis.tasks.filter(t => t.classification === 'retain').length,
+  };
+
+  // Filter tasks based on selection
+  const filteredTasks = selectedFilter === 'all'
+    ? analysis.tasks
+    : analysis.tasks.filter(t => t.classification === selectedFilter);
+
+  const handleFilterChange = (filter: ClassificationFilter) => {
+    setSelectedFilter(filter);
+  };
+
   return (
-    <div className="space-y-4">
-      {/* Analysis Header */}
+    <div className="space-y-6">
+      {/* Analysis Header with Condensed Taxonomy */}
       <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-              {analysis.jobTitle}
-            </h2>
-            <p className="text-sm text-gray-500 mt-1">
-              Analysis Date: {new Date(analysis.analysisDate).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </p>
+        <div className="flex flex-col gap-4">
+          {/* Job Title and Capability Level */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                {analysis.jobTitle}
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Analysis Date: {new Date(analysis.analysisDate).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-500">Capability Level:</span>
+              <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
+                analysis.capabilityLevel === 'conservative'
+                  ? 'bg-blue-100 text-blue-800'
+                  : analysis.capabilityLevel === 'moderate'
+                  ? 'bg-purple-100 text-purple-800'
+                  : 'bg-amber-100 text-amber-800'
+              }`}>
+                {analysis.capabilityLevel.charAt(0).toUpperCase() + analysis.capabilityLevel.slice(1)}
+              </span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500">Capability Level:</span>
-            <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
-              analysis.capabilityLevel === 'conservative'
-                ? 'bg-blue-100 text-blue-800'
-                : analysis.capabilityLevel === 'moderate'
-                ? 'bg-purple-100 text-purple-800'
-                : 'bg-amber-100 text-amber-800'
-            }`}>
-              {analysis.capabilityLevel.charAt(0).toUpperCase() + analysis.capabilityLevel.slice(1)}
-            </span>
-          </div>
+
+          {/* Condensed Taxonomy Resolution */}
+          <TaxonomyInline data={analysis.taxonomyResolution} />
         </div>
       </div>
 
-      {/* Analysis Steps */}
-      <TaxonomyResolution data={analysis.taxonomyResolution} />
-      <TaskBreakdown tasks={analysis.tasks} />
-      <AutomationExposure data={analysis.automationExposure} />
+      {/* Hero: Automation Exposure with Interactive Chart */}
+      <AutomationExposureHero
+        data={analysis.automationExposure}
+        taskCounts={taskCounts}
+        selectedFilter={selectedFilter}
+        onFilterChange={handleFilterChange}
+      />
+
+      {/* Task Breakdown with Filter Tabs */}
+      <TaskBreakdown
+        tasks={filteredTasks}
+        allTasks={analysis.tasks}
+        taskCounts={taskCounts}
+        selectedFilter={selectedFilter}
+        onFilterChange={handleFilterChange}
+      />
+
+      {/* Skills Implications */}
       <SkillsImplications skills={analysis.skillImplications} />
     </div>
   );
@@ -55,27 +97,40 @@ export default function ResultsPanel({ analysis }: ResultsPanelProps) {
 // Loading state component
 export function ResultsPanelSkeleton() {
   return (
-    <div className="space-y-4 animate-pulse">
+    <div className="space-y-6 animate-pulse">
       {/* Header Skeleton */}
       <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
         <div className="h-8 bg-gray-200 rounded w-64 mb-2" />
-        <div className="h-4 bg-gray-200 rounded w-48" />
+        <div className="h-4 bg-gray-200 rounded w-48 mb-4" />
+        <div className="h-10 bg-gray-100 rounded w-full" />
       </div>
 
-      {/* Section Skeletons */}
-      {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-5 w-5 bg-gray-200 rounded" />
-            <div className="h-6 bg-gray-200 rounded w-48" />
+      {/* Hero Chart Skeleton */}
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="flex items-center justify-center">
+            <div className="w-48 h-48 bg-gray-200 rounded-full" />
           </div>
-          <div className="space-y-3">
-            <div className="h-4 bg-gray-200 rounded w-full" />
-            <div className="h-4 bg-gray-200 rounded w-3/4" />
-            <div className="h-4 bg-gray-200 rounded w-5/6" />
+          <div className="space-y-4">
+            <div className="h-16 bg-gray-200 rounded" />
+            <div className="grid grid-cols-3 gap-3">
+              <div className="h-20 bg-gray-200 rounded" />
+              <div className="h-20 bg-gray-200 rounded" />
+              <div className="h-20 bg-gray-200 rounded" />
+            </div>
           </div>
         </div>
-      ))}
+      </div>
+
+      {/* Task Section Skeleton */}
+      <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+        <div className="h-6 bg-gray-200 rounded w-48 mb-4" />
+        <div className="space-y-3">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-24 bg-gray-100 rounded" />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -533,7 +533,56 @@ vercel --prod --yes
 
 ---
 
+### January 7, 2026 (Session 2) - Major UI Refactor
+
+**Goal:** Improve user flow by making Automation Exposure the primary response with drill-down capability.
+
+**Changes Implemented:**
+
+1. **Automation Exposure as Hero**
+   - Promoted from section 3 to primary position after header
+   - Larger, more prominent pie chart
+   - Clear instruction: "Click a category to explore tasks"
+
+2. **Interactive Pie Chart**
+   - Click any segment (Automate/Augment/Retain) to filter tasks
+   - Selected segment gets darker color and ring highlight
+   - Unselected segments fade to 30% opacity
+   - Toggle behavior: click again to deselect
+   - "Show all tasks" link when filtered
+
+3. **Condensed Taxonomy Resolution**
+   - Collapsed to single line: `Mapped to: [Title] (code) · Confidence`
+   - Expandable "Details" button reveals match reasoning and related titles
+   - Reduced visual footprint while preserving information
+
+4. **Task Breakdown with Filter Tabs**
+   - Added filter tabs: All Tasks | Automate | Augment | Retain
+   - Each tab shows count badge
+   - Bidirectional sync with pie chart clicks
+   - Filtered tasks animate in with stagger effect
+
+5. **Connected State Management**
+   - Pie chart clicks → update task filter tabs
+   - Filter tab clicks → update pie chart highlighting
+   - Category percentage buttons also act as filters
+
+**New Components Created:**
+- `components/TaxonomyInline.tsx` - Condensed taxonomy display with expandable details
+- `components/AutomationExposureHero.tsx` - Interactive pie chart with click handlers
+
+**Modified Components:**
+- `components/ResultsPanel.tsx` - Restructured layout, added filter state management
+- `components/TaskBreakdown.tsx` - Added filter tabs, accepts filter props
+
+**Technical Notes:**
+- Used Recharts Cell onClick for pie segment interaction
+- ClassificationFilter type: `'automate' | 'augment' | 'retain' | 'all'`
+- Filter state lifted to ResultsPanel for coordination between components
+
+---
+
 *Last Updated: January 7, 2026*
-*Status: Search Bug Fixed & Deployed ✅*
+*Status: UI Refactor Complete ✅*
 *Live: https://workforce-intelligence.vercel.app*
 *Next: Caching, rate limiting, user feedback collection*
