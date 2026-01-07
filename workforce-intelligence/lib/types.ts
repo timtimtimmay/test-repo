@@ -106,3 +106,69 @@ export interface AnalysisState {
   result: JobAnalysis | null;
   capabilityLevel: CapabilityLevel;
 }
+
+// Query Log Entry for analytics and caching decisions
+export interface QueryLogEntry {
+  id: string;
+  timestamp: string;
+  jobTitle: string;
+  onetCode: string | null;
+  matchedTitle: string | null;
+  matchConfidence: ConfidenceLevel | null;
+  capabilityLevel: CapabilityLevel;
+  responseTimeMs: number;
+  taskCount: number;
+  error: string | null;
+}
+
+// Streaming Response Types
+export type StreamEventType =
+  | 'taxonomy'        // O*NET match resolved (immediate)
+  | 'tasks_pending'   // Task list before classification
+  | 'classification'  // All tasks classified
+  | 'complete'        // Analysis finished
+  | 'error';          // Error occurred
+
+export interface StreamEvent {
+  type: StreamEventType;
+  data: unknown;
+  timestamp: number;
+  progress: number; // 0-100
+}
+
+export interface TaxonomyStreamData {
+  inputTitle: string;
+  resolvedTitle: string;
+  onetCode: string;
+  confidence: ConfidenceLevel;
+  alternativeTitles: string[];
+  taskCount: number;
+}
+
+export interface TasksPendingStreamData {
+  taskCount: number;
+  tasks: Array<{
+    id: string;
+    description: string;
+  }>;
+}
+
+export interface ClassificationStreamData {
+  tasks: Task[];
+  automationExposure: AutomationExposure;
+  skillImplications: SkillImplication[];
+}
+
+// Streaming state for frontend
+export interface StreamingAnalysisState {
+  status: 'idle' | 'connecting' | 'streaming' | 'complete' | 'error';
+  progress: number;
+  taxonomy: TaxonomyResolution | null;
+  pendingTasks: TasksPendingStreamData | null;
+  tasks: Task[];
+  automationExposure: AutomationExposure | null;
+  skillImplications: SkillImplication[];
+  error: string | null;
+  capabilityLevel: CapabilityLevel;
+  analysisDate: string | null;
+}

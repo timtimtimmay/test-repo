@@ -665,7 +665,107 @@ Executive-focused view that transforms data into actionable strategy:
 
 ---
 
+## Future Performance Improvements
+
+### Query Logging (Implemented)
+- All queries logged to Vercel Logs with structured JSON
+- Filter by "QUERY_LOG" in Vercel Dashboard → Logs
+- Use to identify top occupations for pre-computation
+
+### Option 1: Pre-Compute Top Occupations
+**Status:** Not implemented
+**Estimated Impact:** Instant response (<100ms) for ~80% of queries
+
+**Approach:**
+- Export query logs, identify top 50-100 searched occupations
+- Run batch analysis overnight, store results as JSON
+- Serve cached results for known occupations
+- Fall back to live API for rare queries
+
+**Cost:** ~$5-10 upfront for initial batch
+**Trade-off:** Stale data (need periodic refresh), storage overhead
+
+### Option 2: Parallel Batched Classification
+**Status:** Not implemented
+**Estimated Impact:** 3x faster (90s → 30s)
+
+**Approach:**
+- Split 25 tasks into 5 batches of 5 tasks
+- Run 2-3 batches in parallel
+- Merge results, recalculate exposure stats
+
+**Cost:** ~20% higher API cost (multiple smaller calls)
+**Trade-off:** More complex error handling, rate limit risk
+
+### Option 3: Streaming Response (Implemented)
+**Status:** Complete ✅
+**Impact:** Same total time, dramatically better perceived performance
+
+**Implementation:**
+- Streaming API endpoint at `/api/analyze/stream`
+- Server-Sent Events (SSE) with 4 stages:
+  1. `taxonomy` (10%) - O*NET match appears in ~1 second
+  2. `tasks_pending` (15%) - Task list shows (unclassified)
+  3. `classification` (95%) - All tasks classified with exposure stats
+  4. `complete` (100%) - Analysis finished
+- React hook `useStreamingAnalysis` manages SSE consumption
+- Progressive UI updates as data arrives
+- Cancel button during analysis
+- Progress bar with percentage
+
+**Files Created:**
+- `app/api/analyze/stream/route.ts` - SSE streaming endpoint
+- `hooks/useStreamingAnalysis.ts` - React hook for consuming stream
+- `components/StreamingResultsPanel.tsx` - Progressive results display
+
+**Files Modified:**
+- `lib/types.ts` - Added streaming types (StreamEvent, StreamingAnalysisState)
+- `app/page.tsx` - Integrated streaming hook
+
+**Cost:** Same as current
+**Trade-off:** More complex frontend state management (handled)
+
+### Model Comparison Notes (January 2026)
+- **Claude Haiku tested and rejected** - Failed to follow structured JSON prompt
+- **Mistral 7B local** - Not tested, likely similar prompt compliance issues
+- **Recommendation:** Stay with Claude Sonnet for quality, optimize via caching/batching
+
+---
+
+### January 7, 2026 (Session 5) - Streaming Response Implementation
+
+**Goal:** Improve perceived performance with progressive UI updates during analysis.
+
+**Accomplished:**
+- ✅ Query logging integrated into API (stdout for Vercel Logs)
+- ✅ Tested Claude Haiku vs Sonnet - Haiku rejected (poor JSON compliance)
+- ✅ Created streaming API endpoint with SSE
+- ✅ Created React hook for consuming SSE stream
+- ✅ Created progressive UI components
+- ✅ Integrated streaming into main page
+
+**User Experience:**
+- O*NET match appears in ~1 second (vs 60-90s wait)
+- Task list shows immediately (pending classification)
+- Progress bar shows % complete
+- Cancel button available during analysis
+- Results appear progressively as data arrives
+
+**Files Created:**
+- `lib/query-logger.ts` - Query logging for analytics
+- `app/api/analyze/stream/route.ts` - SSE streaming endpoint
+- `hooks/useStreamingAnalysis.ts` - React hook for streaming
+- `components/StreamingResultsPanel.tsx` - Progressive UI
+
+**Technical Notes:**
+- SSE format: `data: {...}\n\n`
+- ReadableStream with TextEncoder
+- AbortController for cancellation
+- Event types: taxonomy, tasks_pending, classification, complete, error
+
+---
+
 *Last Updated: January 7, 2026*
-*Status: Consolidated View Complete ✅*
+*Status: Streaming Response Complete ✅*
 *Live: https://workforce-intelligence.vercel.app*
-*Next: PDF export, role comparison, headcount implications*
+*Next: Deploy streaming, then PDF export, role comparison*

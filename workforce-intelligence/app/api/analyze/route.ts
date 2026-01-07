@@ -2,10 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AnalyzeRequest, AnalyzeResponse, JobAnalysis, CapabilityLevel } from '@/lib/types';
 import { findBestMatch, getTasks } from '@/lib/onet';
 import { classifyTasks } from '@/lib/classification';
+import { queryLogger } from '@/lib/query-logger';
 
 export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeResponse>> {
+  const startTime = Date.now();
+  let jobTitle = 'unknown';
+  let capabilityLevel: CapabilityLevel = 'moderate';
+
   try {
     const body: AnalyzeRequest = await request.json();
+    jobTitle = body.jobTitle || 'unknown';
+    capabilityLevel = body.capabilityLevel || 'moderate';
 
     // Validate request
     if (!body.jobTitle || typeof body.jobTitle !== 'string') {
@@ -55,10 +62,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
     }
 
     // Step 3: Classify tasks using Claude API
+    // Allow model override for testing (e.g., comparing Haiku vs Sonnet)
+    const modelOverride = (body as { model?: string }).model;
     const classification = await classifyTasks(
       onetTasks,
       occupation.title,
-      body.capabilityLevel
+      body.capabilityLevel,
+      modelOverride
     );
 
     // Step 4: Build response
@@ -162,12 +172,33 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
       analysisDate: new Date().toISOString().split('T')[0],
     };
 
+    // Log successful query for analytics
+    queryLogger.logSuccess(
+      body.jobTitle,
+      occupation.code,
+      matchedTitle,
+      confidence,
+      body.capabilityLevel,
+      Date.now() - startTime,
+      classification.tasks.length
+    );
+
     return NextResponse.json({
       success: true,
       data: analysis,
     });
   } catch (error) {
     console.error('Analysis API error:', error);
+
+    const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+
+    // Log failed query for analytics
+    queryLogger.logError(
+      jobTitle,
+      capabilityLevel,
+      Date.now() - startTime,
+      errorMessage
+    );
 
     // Handle specific error types
     if (error instanceof Error && error.message.includes('ANTHROPIC_API_KEY')) {
@@ -184,7 +215,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'An unexpected error occurred',
+        error: errorMessage,
       },
       { status: 500 }
     );

@@ -71,7 +71,7 @@ export interface ClassificationResult {
 /**
  * Build the task classification prompt
  */
-function buildClassificationPrompt(
+export function buildClassificationPrompt(
   tasks: OnetTask[],
   occupationTitle: string,
   capabilityLevel: CapabilityLevel
@@ -339,7 +339,8 @@ function calculateSummary(tasks: ClassifiedTask[]): ClassificationResult['summar
 export async function classifyTasks(
   tasks: OnetTask[],
   occupationTitle: string,
-  capabilityLevel: CapabilityLevel = 'moderate'
+  capabilityLevel: CapabilityLevel = 'moderate',
+  modelOverride?: string // For testing different models
 ): Promise<ClassificationResult> {
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new Error('ANTHROPIC_API_KEY is not set in environment variables');
@@ -364,9 +365,15 @@ export async function classifyTasks(
 
   const prompt = buildClassificationPrompt(tasksToClassify, occupationTitle, capabilityLevel);
 
+  const model = modelOverride || process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514';
+  console.log(`[Classification] Using model: ${model}`);
+
+  // Haiku has max 8192 tokens, Sonnet has higher limits
+  const maxTokens = model.includes('haiku') ? 8192 : 12000;
+
   const response = await anthropic.messages.create({
-    model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514',
-    max_tokens: 12000, // Increased to handle 25 tasks + skills
+    model,
+    max_tokens: maxTokens,
     temperature: 0.3, // Lower temperature for more consistent classification
     messages: [
       {

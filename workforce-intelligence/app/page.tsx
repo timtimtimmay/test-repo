@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { JobAnalysis, CapabilityLevel, SearchResult } from '@/lib/types';
+import { useState, useCallback, useRef } from 'react';
+import { CapabilityLevel, SearchResult } from '@/lib/types';
 import SearchInput from '@/components/SearchInput';
-import ResultsPanel, { ResultsPanelSkeleton, ResultsPanelError } from '@/components/ResultsPanel';
+import StreamingResultsPanel from '@/components/StreamingResultsPanel';
+import { useStreamingAnalysis } from '@/hooks/useStreamingAnalysis';
 import searchIndex from '@/data/onet-search-index.json';
 
 interface OnetSearchItem {
@@ -16,9 +17,10 @@ interface OnetSearchItem {
 export default function HomePage() {
   const [selectedJob, setSelectedJob] = useState<SearchResult | null>(null);
   const [capabilityLevel, setCapabilityLevel] = useState<CapabilityLevel>('moderate');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [analysis, setAnalysis] = useState<JobAnalysis | null>(null);
+  const capabilityLevelRef = useRef<CapabilityLevel>('moderate');
+
+  // Use streaming hook for analysis
+  const { state: streamingState, analyze, cancel } = useStreamingAnalysis();
 
   // Search data from O*NET index - transform to SearchResult format
   const searchData: SearchResult[] = (searchIndex as OnetSearchItem[]).map((item) => ({
@@ -27,53 +29,21 @@ export default function HomePage() {
     category: item.isPrimary ? 'Primary' : item.primaryTitle,
   }));
 
-  // Handle job selection - call real API
-  const handleSelectJob = useCallback(async (result: SearchResult) => {
+  // Handle job selection - use streaming API
+  const handleSelectJob = useCallback((result: SearchResult) => {
     setSelectedJob(result);
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          jobTitle: result.title,
-          capabilityLevel: capabilityLevel,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!data.success) {
-        throw new Error(data.error || 'Analysis failed');
-      }
-
-      setAnalysis(data.data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [capabilityLevel]);
+    analyze(result.title, capabilityLevelRef.current);
+  }, [analyze]);
 
   // Re-analyze when capability level changes
   const handleCapabilityChange = useCallback((level: CapabilityLevel) => {
     setCapabilityLevel(level);
+    capabilityLevelRef.current = level;
     if (selectedJob) {
       // Re-run analysis with new capability level
-      handleSelectJob(selectedJob);
+      analyze(selectedJob.title, level);
     }
-  }, [selectedJob, handleSelectJob]);
-
-  // Retry handler
-  const handleRetry = useCallback(() => {
-    if (selectedJob) {
-      handleSelectJob(selectedJob);
-    }
-  }, [selectedJob, handleSelectJob]);
+  }, [selectedJob, analyze]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -100,7 +70,7 @@ export default function HomePage() {
               searchData={searchData}
               onSelect={handleSelectJob}
               placeholder="Search for a job title (e.g., Financial Analyst, Software Developer)"
-              disabled={isLoading}
+              disabled={streamingState.status === 'streaming' || streamingState.status === 'connecting'}
             />
             <p className="mt-2 text-xs text-gray-500">
               Search across 57,521 job titles from O*NET database (e.g., Financial Analyst, Software Developer, Registered Nurse, Electrician)
@@ -151,7 +121,7 @@ export default function HomePage() {
       </div>
 
       {/* Results Area */}
-      {!selectedJob && !isLoading && (
+      {streamingState.status === 'idle' && !selectedJob && (
         <div className="bg-white rounded-xl border border-gray-200 p-8 sm:p-12 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
             <svg className="h-8 w-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -168,12 +138,9 @@ export default function HomePage() {
         </div>
       )}
 
-      {isLoading && <ResultsPanelSkeleton />}
-
-      {error && <ResultsPanelError error={error} onRetry={handleRetry} />}
-
-      {analysis && !isLoading && !error && (
-        <ResultsPanel analysis={analysis} />
+      {/* Streaming Results - Shows progressive updates */}
+      {(streamingState.status !== 'idle' || streamingState.taxonomy) && (
+        <StreamingResultsPanel state={streamingState} onCancel={cancel} />
       )}
 
       {/* Methodology Callout */}
