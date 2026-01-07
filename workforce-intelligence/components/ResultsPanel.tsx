@@ -6,15 +6,18 @@ import TaxonomyInline from './TaxonomyInline';
 import TaskBreakdown from './TaskBreakdown';
 import AutomationExposureHero from './AutomationExposureHero';
 import SkillsImplications from './SkillsImplications';
+import TransformationRoadmap from './TransformationRoadmap';
 
 interface ResultsPanelProps {
   analysis: JobAnalysis;
 }
 
 export type ClassificationFilter = TaskClassification | 'all';
+type ViewMode = 'roadmap' | 'detailed';
 
 export default function ResultsPanel({ analysis }: ResultsPanelProps) {
   const [selectedFilter, setSelectedFilter] = useState<ClassificationFilter>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('roadmap');
 
   // Count tasks by classification
   const taskCounts = {
@@ -35,11 +38,11 @@ export default function ResultsPanel({ analysis }: ResultsPanelProps) {
 
   return (
     <div className="space-y-6">
-      {/* Analysis Header with Condensed Taxonomy */}
+      {/* Analysis Header with View Toggle */}
       <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
         <div className="flex flex-col gap-4">
-          {/* Job Title and Capability Level */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          {/* Job Title, Capability Level, and View Toggle */}
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
                 {analysis.jobTitle}
@@ -52,17 +55,51 @@ export default function ResultsPanel({ analysis }: ResultsPanelProps) {
                 })}
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">Capability Level:</span>
-              <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
-                analysis.capabilityLevel === 'conservative'
-                  ? 'bg-blue-100 text-blue-800'
-                  : analysis.capabilityLevel === 'moderate'
-                  ? 'bg-purple-100 text-purple-800'
-                  : 'bg-amber-100 text-amber-800'
-              }`}>
-                {analysis.capabilityLevel.charAt(0).toUpperCase() + analysis.capabilityLevel.slice(1)}
-              </span>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              {/* View Toggle */}
+              <div className="inline-flex items-center bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('roadmap')}
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                    viewMode === 'roadmap'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  Executive Roadmap
+                </button>
+                <button
+                  onClick={() => setViewMode('detailed')}
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                    viewMode === 'detailed'
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                  </svg>
+                  Detailed Analysis
+                </button>
+              </div>
+
+              {/* Capability Level */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500">Capability:</span>
+                <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
+                  analysis.capabilityLevel === 'conservative'
+                    ? 'bg-blue-100 text-blue-800'
+                    : analysis.capabilityLevel === 'moderate'
+                    ? 'bg-purple-100 text-purple-800'
+                    : 'bg-amber-100 text-amber-800'
+                }`}>
+                  {analysis.capabilityLevel.charAt(0).toUpperCase() + analysis.capabilityLevel.slice(1)}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -71,25 +108,41 @@ export default function ResultsPanel({ analysis }: ResultsPanelProps) {
         </div>
       </div>
 
-      {/* Hero: Automation Exposure with Interactive Chart */}
-      <AutomationExposureHero
-        data={analysis.automationExposure}
-        taskCounts={taskCounts}
-        selectedFilter={selectedFilter}
-        onFilterChange={handleFilterChange}
-      />
+      {/* Conditional Content Based on View Mode */}
+      {viewMode === 'roadmap' ? (
+        /* Executive Roadmap View */
+        <TransformationRoadmap
+          jobTitle={analysis.jobTitle}
+          tasks={analysis.tasks}
+          skills={analysis.skillImplications}
+          automatePercentage={analysis.automationExposure.automatePercentage}
+          augmentPercentage={analysis.automationExposure.augmentPercentage}
+          retainPercentage={analysis.automationExposure.retainPercentage}
+        />
+      ) : (
+        /* Detailed Analysis View */
+        <>
+          {/* Hero: Automation Exposure with Interactive Chart */}
+          <AutomationExposureHero
+            data={analysis.automationExposure}
+            taskCounts={taskCounts}
+            selectedFilter={selectedFilter}
+            onFilterChange={handleFilterChange}
+          />
 
-      {/* Task Breakdown with Filter Tabs */}
-      <TaskBreakdown
-        tasks={filteredTasks}
-        allTasks={analysis.tasks}
-        taskCounts={taskCounts}
-        selectedFilter={selectedFilter}
-        onFilterChange={handleFilterChange}
-      />
+          {/* Task Breakdown with Filter Tabs */}
+          <TaskBreakdown
+            tasks={filteredTasks}
+            allTasks={analysis.tasks}
+            taskCounts={taskCounts}
+            selectedFilter={selectedFilter}
+            onFilterChange={handleFilterChange}
+          />
 
-      {/* Skills Implications */}
-      <SkillsImplications skills={analysis.skillImplications} />
+          {/* Skills Implications */}
+          <SkillsImplications skills={analysis.skillImplications} />
+        </>
+      )}
     </div>
   );
 }
@@ -100,34 +153,33 @@ export function ResultsPanelSkeleton() {
     <div className="space-y-6 animate-pulse">
       {/* Header Skeleton */}
       <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-        <div className="h-8 bg-gray-200 rounded w-64 mb-2" />
-        <div className="h-4 bg-gray-200 rounded w-48 mb-4" />
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <div className="h-8 bg-gray-200 rounded w-64 mb-2" />
+            <div className="h-4 bg-gray-200 rounded w-48" />
+          </div>
+          <div className="h-10 bg-gray-200 rounded w-64" />
+        </div>
         <div className="h-10 bg-gray-100 rounded w-full" />
       </div>
 
-      {/* Hero Chart Skeleton */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="flex items-center justify-center">
-            <div className="w-48 h-48 bg-gray-200 rounded-full" />
-          </div>
-          <div className="space-y-4">
-            <div className="h-16 bg-gray-200 rounded" />
-            <div className="grid grid-cols-3 gap-3">
-              <div className="h-20 bg-gray-200 rounded" />
-              <div className="h-20 bg-gray-200 rounded" />
-              <div className="h-20 bg-gray-200 rounded" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Task Section Skeleton */}
-      <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-        <div className="h-6 bg-gray-200 rounded w-48 mb-4" />
-        <div className="space-y-3">
+      {/* Roadmap Skeleton */}
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="bg-gray-200 h-24" />
+        <div className="p-6 space-y-6">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-24 bg-gray-100 rounded" />
+            <div key={i} className="rounded-xl border border-gray-200">
+              <div className="h-16 bg-gray-100 rounded-t-xl" />
+              <div className="p-5 bg-gray-50">
+                <div className="h-4 bg-gray-200 rounded w-3/4 mb-4" />
+                <div className="flex gap-2 mb-4">
+                  {[1, 2, 3, 4].map((j) => (
+                    <div key={j} className="h-8 bg-gray-200 rounded-lg w-24" />
+                  ))}
+                </div>
+                <div className="h-24 bg-gray-100 rounded-lg" />
+              </div>
+            </div>
           ))}
         </div>
       </div>
