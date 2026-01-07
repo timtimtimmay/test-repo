@@ -30,13 +30,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
       return NextResponse.json(
         {
           success: false,
-          error: `No O*NET occupation found matching "${body.jobTitle}". Please try a different job title or be more specific.`,
+          error: `No O*NET occupation found matching "${body.jobTitle}". Try a more specific job title like "Software Developer", "Financial Analyst", or "Registered Nurse".`,
         },
         { status: 404 }
       );
     }
 
-    const { occupation, confidence, matchType } = match;
+    const { occupation, confidence, matchType, matchedTitle, score, alternatives } = match;
+
+    // Log match details for debugging
+    console.log(`[Analyze] "${body.jobTitle}" → "${matchedTitle}" (${occupation.title}) | Score: ${score}, Confidence: ${confidence}`);
 
     // Step 2: Get tasks for this occupation
     const onetTasks = getTasks(occupation.code);
@@ -68,13 +71,17 @@ export async function POST(request: NextRequest): Promise<NextResponse<AnalyzeRe
         onetCode: occupation.code,
         confidence: confidence,
         alternativeTitles: occupation.alternateTitles.slice(0, 5),
-        matchReasoning: `Matched to O*NET occupation "${occupation.title}" (${occupation.code}). ${
+        matchReasoning: `Matched "${body.jobTitle}" to O*NET occupation "${occupation.title}" (${occupation.code}) via "${matchedTitle}". ${
           matchType === 'exact'
             ? 'Exact match found in O*NET taxonomy.'
             : matchType === 'primary'
             ? 'Matched to primary O*NET occupation title.'
             : 'Matched via alternate job title in O*NET database.'
-        } Confidence: ${confidence}.`,
+        } Confidence: ${confidence}.${
+          alternatives && alternatives.length > 0
+            ? ` Other possible matches: ${alternatives.map(a => a.title).join(', ')}.`
+            : ''
+        }`,
       },
       tasks: classification.tasks.map(task => ({
         id: task.id,

@@ -471,15 +471,33 @@ vercel --prod --yes
   - Software Developer: 17 tasks, 8 skills, 54 exposure
   - Electrician: 21 tasks, 8 skills, 31 exposure
   - Marketing Manager: 25 tasks, 7 skills, 50 exposure
+- ✅ **Connected frontend to real API** (was using sample data!)
+  - Replaced sample-jobs.json with onet-search-index.json
+  - All 57,521 O*NET titles now searchable
+  - Real API call to `/api/analyze` endpoint
+  - Tested and confirmed working end-to-end
+- ✅ **Optimized search performance**
+  - Added debouncing (150ms delay after typing stops)
+  - Limited autocomplete results to 50 max
+  - Optimized search algorithm (prioritize startsWith, early exit)
+  - Added visual feedback (loading spinner while searching)
+  - Eliminated multi-second UI freezes
 
 **Files Modified:**
 - `lib/classification.ts` - Task limit, prompt expansion, skills parsing
 - `app/api/analyze/route.ts` - Skills mapping, methodology update
+- `app/page.tsx` - Connected to real API, replaced sample data with O*NET index
+- `components/SearchInput.tsx` - Performance optimization with debouncing
 
 **Performance Impact:**
 - Cost: ~$0.025 → ~$0.05-0.06 per analysis
 - Time: ~60s → ~75-90s per analysis
+- Search: Eliminated UI freezing, responsive typing
 - Value: Comprehensive task coverage + actionable skill insights
+
+**Commits:**
+- `e4fe6dd` - Connect frontend to real API with all 57,521 O*NET titles
+- (pending) - Search performance optimization
 
 ---
 
