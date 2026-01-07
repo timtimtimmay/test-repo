@@ -763,9 +763,22 @@ Executive-focused view that transforms data into actionable strategy:
 - AbortController for cancellation
 - Event types: taxonomy, tasks_pending, classification, complete, error
 
+**Methodology Page Update:**
+- Updated O*NET version to 30.1 (December 2025)
+- Added ILO Working Paper 140 as primary framework reference
+- Documented six-dimension assessment methodology
+- Added Step 5: Skills Inference section
+- Added Technical Implementation section (pipeline, streaming, cost)
+- Updated Data Sources with deep links to ILO, O*NET, Anthropic
+- Fixed disclaimer to reflect real data usage
+
+**Commits:**
+- `a69858b` - Add streaming response for improved perceived performance
+- `b641edd` - Update methodology page with current implementation details
+
 ---
 
 *Last Updated: January 7, 2026*
-*Status: Streaming Response Complete ✅*
+*Status: Streaming + Methodology Complete ✅*
 *Live: https://workforce-intelligence.vercel.app*
-*Next: Deploy streaming, then PDF export, role comparison*
+*Next: PDF export, role comparison, caching for popular occupations*
