@@ -82,6 +82,20 @@ export default function SearchInput({
     onSelect(result);
   }, [onSelect]);
 
+  // Handle free-form text submission (not from autocomplete)
+  const handleSubmitFreeForm = useCallback(() => {
+    if (!query.trim()) return;
+
+    // Create a synthetic SearchResult for free-form input
+    const freeFormResult: SearchResult = {
+      id: 'free-form',
+      title: query.trim(),
+      category: 'Custom search',
+    };
+
+    handleSelect(freeFormResult);
+  }, [query, handleSelect]);
+
   // Handle keyboard navigation
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -124,22 +138,8 @@ export default function SearchInput({
           break;
       }
     },
-    [isOpen, filteredResults, highlightedIndex, handleSelect, query]
+    [isOpen, filteredResults, highlightedIndex, handleSelect, query, handleSubmitFreeForm]
   );
-
-  // Handle free-form text submission (not from autocomplete)
-  const handleSubmitFreeForm = useCallback(() => {
-    if (!query.trim()) return;
-
-    // Create a synthetic SearchResult for free-form input
-    const freeFormResult: SearchResult = {
-      id: 'free-form',
-      title: query.trim(),
-      category: 'Custom search',
-    };
-
-    handleSelect(freeFormResult);
-  }, [query, handleSelect]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -240,6 +240,7 @@ export default function SearchInput({
           {/* Always show free-form search option first */}
           <li
             role="option"
+            aria-selected={false}
             className="cursor-pointer px-4 py-3 bg-blue-50 border-b border-blue-100"
             onClick={handleSubmitFreeForm}
           >
@@ -249,7 +250,7 @@ export default function SearchInput({
               </svg>
               <div>
                 <div className="text-sm text-blue-600 font-medium">
-                  Search for: "{query.trim()}"
+                  Search for: &quot;{query.trim()}&quot;
                 </div>
                 <div className="text-xs text-gray-600 mt-0.5">
                   {filteredResults.length > 0
