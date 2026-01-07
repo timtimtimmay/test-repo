@@ -625,7 +625,47 @@ Executive-focused view that transforms data into actionable strategy:
 
 ---
 
+### January 7, 2026 (Session 4) - Consolidated View with Executive Summary
+
+**Goal:** Streamline the UI by removing the view toggle and creating a single, cohesive analysis view.
+
+**Changes Made:**
+
+1. **Removed View Toggle**
+   - Eliminated the "Executive Roadmap" vs "Detailed Analysis" toggle
+   - Single unified view that combines the best of both
+
+2. **Executive Summary at Top**
+   - Dark gradient hero banner with job title
+   - Key insight paragraph: automation %, augment %, retain % with strategic framing
+   - Capability level badge and analysis date
+   - Sets executive context before diving into details
+
+3. **Skills Investment Priority Section**
+   - Extracted from TransformationRoadmap into main view
+   - Three-column grid: Deprioritize (↓) | Evolve/Train Now (↑↑↑) | Double Down (↑↑)
+   - Immediate L&D planning value
+
+4. **Collapsible Task Breakdown**
+   - Task Breakdown section is now collapsible (collapsed by default)
+   - Reduces initial cognitive load
+   - Users can expand to see detailed task cards
+
+**New Layout Order:**
+1. Executive Summary (hero)
+2. Condensed Taxonomy Resolution
+3. Automation Exposure (interactive pie chart)
+4. Task Breakdown (collapsible)
+5. Skills Investment Priority (3-column grid)
+6. Detailed Skills Implications
+
+**Files Modified:**
+- `components/ResultsPanel.tsx` - Removed toggle, added Executive Summary and Skills Investment Priority
+- `components/TaskBreakdown.tsx` - Added collapsible functionality
+
+---
+
 *Last Updated: January 7, 2026*
-*Status: Executive Roadmap Complete ✅*
+*Status: Consolidated View Complete ✅*
 *Live: https://workforce-intelligence.vercel.app*
 *Next: PDF export, role comparison, headcount implications*

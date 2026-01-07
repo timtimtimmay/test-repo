@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Task } from '@/lib/types';
 import { ClassificationBadge } from './ConfidenceIndicator';
 import { ClassificationFilter } from './ResultsPanel';
@@ -15,6 +16,7 @@ interface TaskBreakdownProps {
   };
   selectedFilter: ClassificationFilter;
   onFilterChange: (filter: ClassificationFilter) => void;
+  defaultExpanded?: boolean;
 }
 
 const FILTER_CONFIG = {
@@ -53,21 +55,27 @@ export default function TaskBreakdown({
   taskCounts,
   selectedFilter,
   onFilterChange,
+  defaultExpanded = false,
 }: TaskBreakdownProps) {
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const filterConfig = FILTER_CONFIG[selectedFilter];
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-      {/* Header with Filter Tabs */}
-      <div className="border-b border-gray-200 bg-gray-50 p-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      {/* Collapsible Header */}
+      <button
+        type="button"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full border-b border-gray-200 bg-gray-50 p-4 hover:bg-gray-100 transition-colors"
+      >
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white rounded-lg shadow-sm">
               <svg className="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
               </svg>
             </div>
-            <div>
+            <div className="text-left">
               <h3 className="text-lg font-semibold text-gray-900">Task Breakdown</h3>
               <p className="text-sm text-gray-500">
                 {selectedFilter === 'all'
@@ -76,10 +84,23 @@ export default function TaskBreakdown({
               </p>
             </div>
           </div>
+          <svg
+            className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
+              isExpanded ? 'rotate-180' : ''
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
+      </button>
 
+      {isExpanded && (
+        <>
         {/* Filter Tabs */}
-        <div className="flex flex-wrap gap-2 mt-4">
+        <div className="flex flex-wrap gap-2 p-4 border-b border-gray-200 bg-white">
           {(Object.keys(FILTER_CONFIG) as ClassificationFilter[]).map((filter) => {
             const config = FILTER_CONFIG[filter];
             const count = taskCounts[filter];
@@ -116,38 +137,39 @@ export default function TaskBreakdown({
             );
           })}
         </div>
-      </div>
 
-      {/* Task List */}
-      <div className="p-4">
-        {tasks.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <svg className="h-12 w-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-            <p>No tasks in this category</p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {tasks.map((task, index) => (
-              <TaskCard
-                key={task.id}
-                task={task}
-                index={index}
-                isFiltered={selectedFilter !== 'all'}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+        {/* Task List */}
+        <div className="p-4">
+          {tasks.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <svg className="h-12 w-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              <p>No tasks in this category</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {tasks.map((task, index) => (
+                <TaskCard
+                  key={task.id}
+                  task={task}
+                  index={index}
+                  isFiltered={selectedFilter !== 'all'}
+                />
+              ))}
+            </div>
+          )}
+        </div>
 
-      {/* Methodology Note */}
-      <div className="border-t border-gray-100 bg-gray-50 px-4 py-3">
-        <p className="text-xs text-gray-500">
-          <span className="font-medium">Methodology:</span> Tasks sourced from O*NET Database and classified using ILO-based framework.
-          Task weighting estimated based on typical role requirements.
-        </p>
-      </div>
+        {/* Methodology Note */}
+        <div className="border-t border-gray-100 bg-gray-50 px-4 py-3">
+          <p className="text-xs text-gray-500">
+            <span className="font-medium">Methodology:</span> Tasks sourced from O*NET Database and classified using ILO-based framework.
+            Task weighting estimated based on typical role requirements.
+          </p>
+        </div>
+        </>
+      )}
     </div>
   );
 }

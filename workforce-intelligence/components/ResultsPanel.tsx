@@ -6,18 +6,15 @@ import TaxonomyInline from './TaxonomyInline';
 import TaskBreakdown from './TaskBreakdown';
 import AutomationExposureHero from './AutomationExposureHero';
 import SkillsImplications from './SkillsImplications';
-import TransformationRoadmap from './TransformationRoadmap';
 
 interface ResultsPanelProps {
   analysis: JobAnalysis;
 }
 
 export type ClassificationFilter = TaskClassification | 'all';
-type ViewMode = 'roadmap' | 'detailed';
 
 export default function ResultsPanel({ analysis }: ResultsPanelProps) {
   const [selectedFilter, setSelectedFilter] = useState<ClassificationFilter>('all');
-  const [viewMode, setViewMode] = useState<ViewMode>('roadmap');
 
   // Count tasks by classification
   const taskCounts = {
@@ -36,113 +33,166 @@ export default function ResultsPanel({ analysis }: ResultsPanelProps) {
     setSelectedFilter(filter);
   };
 
+  // Group skills by category based on currentRelevance
+  const decliningSkills = analysis.skillImplications.filter(s => s.currentRelevance === 'decreasing');
+  const evolvingSkills = analysis.skillImplications.filter(s => s.currentRelevance === 'stable');
+  const differentiatingSkills = analysis.skillImplications.filter(s => s.currentRelevance === 'increasing');
+
   return (
     <div className="space-y-6">
-      {/* Analysis Header with View Toggle */}
-      <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
-        <div className="flex flex-col gap-4">
-          {/* Job Title, Capability Level, and View Toggle */}
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                {analysis.jobTitle}
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Analysis Date: {new Date(analysis.analysisDate).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              {/* View Toggle */}
-              <div className="inline-flex items-center bg-gray-100 rounded-lg p-1">
-                <button
-                  onClick={() => setViewMode('roadmap')}
-                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
-                    viewMode === 'roadmap'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                  Executive Roadmap
-                </button>
-                <button
-                  onClick={() => setViewMode('detailed')}
-                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
-                    viewMode === 'detailed'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                  </svg>
-                  Detailed Analysis
-                </button>
-              </div>
-
-              {/* Capability Level */}
+      {/* Executive Summary - Top of page */}
+      <div className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-5 text-white">
+        <div className="flex items-start gap-3">
+          <div className="p-2 bg-white/10 rounded-lg">
+            <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold mb-2">{analysis.jobTitle}</h2>
+            <p className="text-slate-200 leading-relaxed">
+              {analysis.automationExposure.automatePercentage}% of tasks can be fully automated, freeing capacity for higher-value work.
+              The majority ({analysis.automationExposure.augmentPercentage}%) will transform into human-AI collaboration — this is where
+              training investment should focus. {analysis.automationExposure.retainPercentage}% of tasks remain uniquely human and represent
+              the role&apos;s future competitive advantage.
+            </p>
+            <div className="flex items-center gap-4 mt-3 pt-3 border-t border-white/20">
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">Capability:</span>
-                <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
+                <span className="text-sm text-slate-300">Capability:</span>
+                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                   analysis.capabilityLevel === 'conservative'
-                    ? 'bg-blue-100 text-blue-800'
+                    ? 'bg-blue-400/20 text-blue-200'
                     : analysis.capabilityLevel === 'moderate'
-                    ? 'bg-purple-100 text-purple-800'
-                    : 'bg-amber-100 text-amber-800'
+                    ? 'bg-purple-400/20 text-purple-200'
+                    : 'bg-amber-400/20 text-amber-200'
                 }`}>
                   {analysis.capabilityLevel.charAt(0).toUpperCase() + analysis.capabilityLevel.slice(1)}
                 </span>
               </div>
+              <span className="text-sm text-slate-400">
+                {new Date(analysis.analysisDate).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </span>
             </div>
           </div>
-
-          {/* Condensed Taxonomy Resolution */}
-          <TaxonomyInline data={analysis.taxonomyResolution} />
         </div>
       </div>
 
-      {/* Conditional Content Based on View Mode */}
-      {viewMode === 'roadmap' ? (
-        /* Executive Roadmap View */
-        <TransformationRoadmap
-          jobTitle={analysis.jobTitle}
-          tasks={analysis.tasks}
-          skills={analysis.skillImplications}
-          automatePercentage={analysis.automationExposure.automatePercentage}
-          augmentPercentage={analysis.automationExposure.augmentPercentage}
-          retainPercentage={analysis.automationExposure.retainPercentage}
-        />
-      ) : (
-        /* Detailed Analysis View */
-        <>
-          {/* Hero: Automation Exposure with Interactive Chart */}
-          <AutomationExposureHero
-            data={analysis.automationExposure}
-            taskCounts={taskCounts}
-            selectedFilter={selectedFilter}
-            onFilterChange={handleFilterChange}
-          />
+      {/* Condensed Taxonomy Resolution */}
+      <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <TaxonomyInline data={analysis.taxonomyResolution} />
+      </div>
 
-          {/* Task Breakdown with Filter Tabs */}
-          <TaskBreakdown
-            tasks={filteredTasks}
-            allTasks={analysis.tasks}
-            taskCounts={taskCounts}
-            selectedFilter={selectedFilter}
-            onFilterChange={handleFilterChange}
-          />
+      {/* Hero: Automation Exposure with Interactive Chart */}
+      <AutomationExposureHero
+        data={analysis.automationExposure}
+        taskCounts={taskCounts}
+        selectedFilter={selectedFilter}
+        onFilterChange={handleFilterChange}
+      />
 
-          {/* Skills Implications */}
-          <SkillsImplications skills={analysis.skillImplications} />
-        </>
-      )}
+      {/* Task Breakdown with Filter Tabs */}
+      <TaskBreakdown
+        tasks={filteredTasks}
+        allTasks={analysis.tasks}
+        taskCounts={taskCounts}
+        selectedFilter={selectedFilter}
+        onFilterChange={handleFilterChange}
+      />
+
+      {/* Skills Investment Priority */}
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <svg className="h-5 w-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Skills Investment Priority
+        </h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Deprioritize */}
+          <div className="bg-gray-50 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-2 h-2 rounded-full bg-gray-400" />
+              <h4 className="font-medium text-gray-700">Deprioritize</h4>
+              <span className="text-xs text-gray-500 ml-auto">Budget: ↓</span>
+            </div>
+            <ul className="space-y-2">
+              {decliningSkills.length > 0 ? (
+                decliningSkills.map((skill) => (
+                  <li key={skill.id} className="text-sm text-gray-600 flex items-start gap-2">
+                    <span className="text-gray-400 mt-1">•</span>
+                    <span>{skill.skillName}</span>
+                  </li>
+                ))
+              ) : (
+                <li className="text-sm text-gray-400 italic">No declining skills identified</li>
+              )}
+            </ul>
+          </div>
+
+          {/* Evolve - Train Now */}
+          <div className="bg-purple-50 rounded-xl p-4 ring-2 ring-purple-200">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-2 h-2 rounded-full bg-purple-500" />
+              <h4 className="font-medium text-purple-900">Evolve (Train Now)</h4>
+              <span className="text-xs text-purple-600 ml-auto font-medium">Budget: ↑↑↑</span>
+            </div>
+            <ul className="space-y-2">
+              {evolvingSkills.length > 0 ? (
+                evolvingSkills.map((skill) => (
+                  <li key={skill.id} className="text-sm text-purple-800 flex items-start gap-2">
+                    <span className="text-purple-400 mt-1">•</span>
+                    <span>{skill.skillName}</span>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li className="text-sm text-purple-800 flex items-start gap-2">
+                    <span className="text-purple-400 mt-1">•</span>
+                    <span>AI tool proficiency</span>
+                  </li>
+                  <li className="text-sm text-purple-800 flex items-start gap-2">
+                    <span className="text-purple-400 mt-1">•</span>
+                    <span>Prompt engineering</span>
+                  </li>
+                  <li className="text-sm text-purple-800 flex items-start gap-2">
+                    <span className="text-purple-400 mt-1">•</span>
+                    <span>Human-AI workflow design</span>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+
+          {/* Double Down */}
+          <div className="bg-emerald-50 rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-2 h-2 rounded-full bg-emerald-500" />
+              <h4 className="font-medium text-emerald-900">Double Down</h4>
+              <span className="text-xs text-emerald-600 ml-auto">Budget: ↑↑</span>
+            </div>
+            <ul className="space-y-2">
+              {differentiatingSkills.length > 0 ? (
+                differentiatingSkills.map((skill) => (
+                  <li key={skill.id} className="text-sm text-emerald-800 flex items-start gap-2">
+                    <span className="text-emerald-400 mt-1">•</span>
+                    <span>{skill.skillName}</span>
+                  </li>
+                ))
+              ) : (
+                <li className="text-sm text-gray-400 italic">See retain tasks above</li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Detailed Skills Implications */}
+      <SkillsImplications skills={analysis.skillImplications} />
     </div>
   );
 }
