@@ -497,11 +497,43 @@ vercel --prod --yes
 
 **Commits:**
 - `e4fe6dd` - Connect frontend to real API with all 57,521 O*NET titles
-- (pending) - Search performance optimization
 
 ---
 
-*Last Updated: January 5, 2026*
-*Status: Enhanced MVP with Skills Inference ✅*
+### January 7, 2026 - Search Algorithm Bug Fix & Deployment
+
+**Bug Fixed:**
+- "Chief Learning Officer" was incorrectly matching to "Fire Chief" (First-Line Supervisors of Firefighting)
+- Root cause: Search algorithm gave high score (90) when query started with a short title
+- `"chief learning officer".startsWith("chief")` returned true, giving "Chief" a score of 90
+- This beat better matches like "Learning Manager" because short titles had 100% coverage
+
+**Solution:**
+- Added constraint: "query starts with title" scoring only applies when title has 2+ words
+- Added penalty for matches where <50% of query words match
+- Reordered scoring to prefer longer, more specific matches
+
+**Testing Results:**
+| Job Title | Match | Code | Confidence |
+|-----------|-------|------|------------|
+| Chief Learning Officer | Training and Development Managers | 11-3131.00 | medium ✓ |
+| Financial Analyst | Financial and Investment Analysts | 13-2051.00 | high ✓ |
+| Software Developer | Software Developers | 15-1252.00 | high ✓ |
+| Registered Nurse | Registered Nurses | 29-1141.00 | high ✓ |
+| Fire Chief | First-Line Supervisors of Firefighting | 33-1021.00 | high ✓ |
+| Chief Executive Officer | Chief Executives | 11-1011.00 | medium ✓ |
+
+**Additional Fixes:**
+- Fixed ESLint errors for production build (useCallback dependencies, aria-selected, escaped quotes)
+- Deployed to Vercel production
+
+**Commits:**
+- `9015fbb` - Optimize search algorithm and fix incorrect title matching
+- `02fd802` - Fix ESLint errors for production build
+
+---
+
+*Last Updated: January 7, 2026*
+*Status: Search Bug Fixed & Deployed ✅*
 *Live: https://workforce-intelligence.vercel.app*
 *Next: Caching, rate limiting, user feedback collection*
