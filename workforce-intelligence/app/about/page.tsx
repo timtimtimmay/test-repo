@@ -106,55 +106,18 @@ export default function AboutPage() {
             </div>
           </section>
 
-          {/* Technology Stack */}
-          <section className="bg-white border border-gray-200 rounded-xl p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Technology Stack</h2>
-            <div className="flex flex-wrap gap-2">
-              {[
-                'Next.js 14',
-                'React 18',
-                'TypeScript',
-                'Tailwind CSS',
-                'Recharts',
-                'Vercel',
-                'App Router',
-                'Server Components',
-              ].map((tech) => (
-                <span
-                  key={tech}
-                  className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </section>
         </div>
 
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Author Card */}
           <div className="bg-white border border-gray-200 rounded-xl p-6">
-            <div className="text-center mb-4">
+            <div className="text-center">
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-800 text-white text-2xl font-bold mb-3">
                 TD
               </div>
               <h3 className="text-lg font-bold text-gray-900">Tim Dickinson</h3>
               <p className="text-sm text-gray-600">Strategy Practitioner</p>
-            </div>
-
-            <div className="border-t border-gray-200 pt-4 space-y-3">
-              <a
-                href="https://aistrategypractitioner.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
-              >
-                <span className="text-sm font-medium text-gray-900">Portfolio</span>
-                <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
             </div>
           </div>
 
@@ -181,24 +144,6 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Contact CTA */}
-          <div className="bg-slate-800 rounded-xl p-6 text-white">
-            <h3 className="font-semibold mb-2">Interested in working together?</h3>
-            <p className="text-sm text-slate-300 mb-4">
-              I help organizations navigate workforce transformation and build practical AI solutions.
-            </p>
-            <a
-              href="https://aistrategypractitioner.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-slate-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 transition-colors"
-            >
-              Get in Touch
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
-          </div>
         </div>
       </div>
     </div>

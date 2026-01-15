@@ -23,7 +23,7 @@ export default function MethodologyPage() {
           Methodology
         </h1>
         <p className="text-lg text-gray-600">
-          A detailed look at how we assess workforce automation exposure and skill implications.
+          A detailed look at how this tool assesses workforce automation exposure and skill implications.
         </p>
       </div>
 
@@ -36,10 +36,10 @@ export default function MethodologyPage() {
             <p className="text-gray-700 mb-4">
               The Workforce Task Intelligence methodology provides a structured approach to understanding
               how AI capabilities may impact specific job roles. Rather than making broad predictions about
-              job displacement, we focus on <strong>task-level analysis</strong> to provide actionable insights.
+              job displacement, the tool focuses on <strong>task-level analysis</strong> to provide actionable insights.
             </p>
             <p className="text-gray-700 mb-4">
-              Our approach is grounded in the <strong>ILO Working Paper 140 (2025)</strong> framework for
+              The approach is grounded in the <strong>ILO Working Paper 140 (2025)</strong> framework for
               assessing generative AI exposure, combined with comprehensive occupational data from the
               U.S. Department of Labor&apos;s O*NET database.
             </p>
@@ -61,10 +61,10 @@ export default function MethodologyPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">What We Do</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">What the Tool Does</h3>
             <p className="text-gray-700 mb-4">
-              We map input job titles to standardized occupational classifications using the O*NET
-              (Occupational Information Network) database. Our fuzzy search algorithm matches against
+              The tool maps input job titles to standardized occupational classifications using the O*NET
+              (Occupational Information Network) database. A fuzzy search algorithm matches against
               <strong> 57,521 job titles</strong> (primary titles plus alternate titles) to find the best match.
             </p>
 
@@ -96,9 +96,9 @@ export default function MethodologyPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">What We Do</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">What the Tool Does</h3>
             <p className="text-gray-700 mb-4">
-              Each role is broken into its constituent tasks using O*NET task statements. We analyze
+              Each role is broken into its constituent tasks using O*NET task statements. The tool analyzes
               up to <strong>25 tasks</strong> per occupation, capturing 77% of occupations completely.
               The database contains 18,796 total task statements across all occupations.
             </p>
@@ -155,7 +155,7 @@ export default function MethodologyPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">What We Do</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">What the Tool Does</h3>
             <p className="text-gray-700 mb-4">
               Each task is evaluated using the ILO&apos;s six-dimensional assessment framework.
               Starting from a baseline score of 50, adjustments are made based on each dimension
@@ -244,7 +244,7 @@ export default function MethodologyPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">What We Do</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">What the Tool Does</h3>
             <p className="text-gray-700 mb-4">
               Task-level automation potential is aggregated into an overall exposure score.
               The distribution shows what percentage of tasks fall into each category
@@ -292,9 +292,9 @@ export default function MethodologyPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">What We Do</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">What the Tool Does</h3>
             <p className="text-gray-700 mb-4">
-              Based on the task classifications, we infer skill implications across three categories
+              Based on the task classifications, the tool infers skill implications across three categories
               to provide actionable workforce development guidance:
             </p>
 
