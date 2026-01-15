@@ -75,7 +75,9 @@ export default function StreamingResultsPanel({ state, onCancel }: StreamingResu
           <div className="flex justify-between mt-1">
             <span className="text-xs text-gray-500">{state.progress}% complete</span>
             <span className="text-xs text-gray-500">
-              {state.progress < 95 ? 'This may take 60-90 seconds' : 'Almost done...'}
+              {state.progress < 95
+                ? `Classifying ${state.pendingTasks?.taskCount || state.tasks.length || 25} tasks against 6 dimensions...`
+                : 'Finalizing results...'}
             </span>
           </div>
         </div>
@@ -183,7 +185,7 @@ export default function StreamingResultsPanel({ state, onCancel }: StreamingResu
           <div className="mt-4 text-center text-sm text-gray-500">
             <span className="inline-flex items-center gap-2">
               <div className="animate-spin h-4 w-4 border-2 border-slate-500 border-t-transparent rounded-full" />
-              Classifying tasks with AI (this takes 60-90 seconds)...
+              Classifying {state.pendingTasks?.taskCount || 25} tasks against 6 dimensions...
             </span>
           </div>
         </div>

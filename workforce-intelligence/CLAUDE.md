@@ -778,7 +778,55 @@ Executive-focused view that transforms data into actionable strategy:
 
 ---
 
-*Last Updated: January 7, 2026*
-*Status: Streaming + Methodology Complete ✅*
+### January 15, 2026 - Portfolio Cleanup & Branding Updates
+
+**Goal:** Clean up branding, update links, and prepare portfolio for professional presentation.
+
+**Changes Made:**
+
+1. **LinkedIn Profile Updates**
+   - Updated LinkedIn URL across all pages to: `https://www.linkedin.com/in/tim-dickinson-22319525/`
+   - Footer "Built by Tim Dickinson" now links to LinkedIn
+   - Portfolio hero section links to LinkedIn
+
+2. **Removed aistrategypractitioner.com References**
+   - Domain not currently in use (DNS not configured for root domain)
+   - Removed from Footer, About page, Portfolio page
+   - Removed from layout.tsx metadata (authors URL, openGraph URL)
+   - Note: `workforce.aistrategypractitioner.com` subdomain IS working and points to Vercel
+
+3. **About Page Cleanup**
+   - Removed "Technology Stack" section
+   - Removed "Interested in working together?" CTA section
+   - Portfolio focus, not client solicitation
+
+4. **Methodology Page Voice Update**
+   - Changed all "we/our" references to "the tool/I"
+   - Reflects single-author portfolio project
+   - Examples: "What We Do" → "What the Tool Does", "Our approach" → "The approach"
+
+**Files Modified:**
+- `app/portfolio/page.tsx` - LinkedIn URL, removed Main Site button
+- `app/about/page.tsx` - Removed Technology Stack, CTA, and Portfolio link
+- `app/methodology/page.tsx` - Voice updates (we → the tool/I)
+- `app/layout.tsx` - Removed aistrategypractitioner.com from metadata
+- `components/Footer.tsx` - LinkedIn link, removed domain reference
+
+**Deployment:**
+- Committed and pushed to GitHub
+- Deployed to Vercel production
+
+**Commits:**
+- `2010aa1` - Update portfolio links and clean up branding
+
+**Live URLs:**
+- https://workforce-intelligence.vercel.app (Vercel default)
+- https://workforce.aistrategypractitioner.com (custom subdomain)
+
+---
+
+*Last Updated: January 15, 2026*
+*Status: Portfolio Ready ✅*
 *Live: https://workforce-intelligence.vercel.app*
+*Alt URL: https://workforce.aistrategypractitioner.com*
 *Next: PDF export, role comparison, caching for popular occupations*

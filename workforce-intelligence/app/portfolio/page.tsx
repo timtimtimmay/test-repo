@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function PortfolioPage() {
   const projects = [
@@ -21,9 +22,18 @@ export default function PortfolioPage() {
       {/* Hero Section */}
       <div className="bg-slate-900 text-white">
         <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Tim Dickinson
-          </h1>
+          <div className="flex items-center gap-6">
+            <Image
+              src="/tim-dickinson.jpg"
+              alt="Tim Dickinson"
+              width={80}
+              height={80}
+              className="rounded-full border-2 border-white/20"
+            />
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+              Tim Dickinson
+            </h1>
+          </div>
           <p className="mt-4 text-xl text-slate-300">
             AI Strategy Practitioner
           </p>

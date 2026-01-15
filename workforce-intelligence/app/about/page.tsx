@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'About | Workforce Task Intelligence',
@@ -113,9 +114,13 @@ export default function AboutPage() {
           {/* Author Card */}
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-800 text-white text-2xl font-bold mb-3">
-                TD
-              </div>
+              <Image
+                src="/tim-dickinson.jpg"
+                alt="Tim Dickinson"
+                width={80}
+                height={80}
+                className="rounded-full mx-auto mb-3"
+              />
               <h3 className="text-lg font-bold text-gray-900">Tim Dickinson</h3>
               <p className="text-sm text-gray-600">Strategy Practitioner</p>
             </div>
