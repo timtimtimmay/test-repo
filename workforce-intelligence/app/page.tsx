@@ -97,16 +97,10 @@ export default function HomePage() {
                   const levels: CapabilityLevel[] = ['conservative', 'moderate', 'bold'];
                   handleCapabilityChange(levels[parseInt(e.target.value)]);
                 }}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-slate-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
               />
               <div className="mt-3 text-center">
-                <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
-                  capabilityLevel === 'conservative'
-                    ? 'bg-blue-100 text-blue-800'
-                    : capabilityLevel === 'moderate'
-                    ? 'bg-purple-100 text-purple-800'
-                    : 'bg-amber-100 text-amber-800'
-                }`}>
+                <span className="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium bg-amber-600 text-white">
                   {capabilityLevel.charAt(0).toUpperCase() + capabilityLevel.slice(1)}
                 </span>
               </div>
@@ -123,8 +117,8 @@ export default function HomePage() {
       {/* Results Area */}
       {streamingState.status === 'idle' && !selectedJob && (
         <div className="bg-white rounded-xl border border-gray-200 p-8 sm:p-12 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
-            <svg className="h-8 w-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-100 mb-4">
+            <svg className="h-8 w-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
@@ -159,7 +153,7 @@ export default function HomePage() {
               This tool analyzes workforce automation exposure using O*NET occupational data
               and ILO-based classification frameworks. Analysis is powered by Claude AI and takes
               60-90 seconds per job title. For the complete methodology, visit the{' '}
-              <a href="/methodology" className="text-slate-800 font-medium hover:underline">
+              <a href="/methodology" className="text-amber-600 font-medium hover:underline">
                 Methodology page
               </a>.
             </p>

@@ -20,7 +20,7 @@ export default function PortfolioPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section */}
-      <div className="bg-slate-900 text-white">
+      <div className="text-white" style={{ backgroundColor: '#1a2332' }}>
         <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
             <Image
@@ -34,9 +34,6 @@ export default function PortfolioPage() {
               Tim Dickinson
             </h1>
           </div>
-          <p className="mt-4 text-xl text-slate-300">
-            AI Strategy Practitioner
-          </p>
           <p className="mt-6 text-lg text-slate-400 max-w-2xl">
             Combining strategic thinking with technical implementation.
             I build tools that help organizations understand and navigate AI transformation.
@@ -83,7 +80,7 @@ export default function PortfolioPage() {
                   <ul className="mt-4 space-y-1">
                     {project.highlights.map((highlight, i) => (
                       <li key={i} className="flex items-center gap-2 text-sm text-slate-600">
-                        <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-4 w-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         {highlight}
@@ -106,7 +103,7 @@ export default function PortfolioPage() {
 
                 <Link
                   href={project.link}
-                  className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
+                  className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 transition-colors"
                 >
                   View Project
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,14 +126,6 @@ export default function PortfolioPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="border-t border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-slate-600">
-            Built with Next.js, TypeScript, and Claude API
-          </p>
-        </div>
-      </div>
     </div>
   );
 }

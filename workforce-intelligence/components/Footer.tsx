@@ -10,7 +10,7 @@ export default function Footer() {
               href="https://www.linkedin.com/in/tim-dickinson-22319525/"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-gray-900 hover:text-slate-700 transition-colors"
+              className="font-medium text-amber-600 hover:text-amber-700 transition-colors"
             >
               Tim Dickinson
             </a>
@@ -19,8 +19,8 @@ export default function Footer() {
           {/* Disclaimer */}
           <div className="text-center md:text-right">
             <p className="text-xs text-gray-500 max-w-md">
-              This is a methodology demonstration for portfolio purposes.
-              Results are illustrative and based on sample data, not production AI analysis.
+              Analysis powered by O*NET 30.1 occupational data and ILO research methodology.
+              Results reflect technical automation potential, not organizational adoption timelines.
             </p>
           </div>
         </div>

@@ -48,7 +48,7 @@ export default function StreamingResultsPanel({ state, onCancel }: StreamingResu
         <div className="bg-white border border-gray-200 rounded-lg p-4">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <div className="animate-spin h-4 w-4 border-2 border-slate-700 border-t-transparent rounded-full" />
+              <div className="animate-spin h-4 w-4 border-2 border-amber-600 border-t-transparent rounded-full" />
               <span className="text-sm font-medium text-gray-700">
                 {state.progress < 15
                   ? 'Resolving job taxonomy...'
@@ -68,7 +68,7 @@ export default function StreamingResultsPanel({ state, onCancel }: StreamingResu
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div
-              className="bg-slate-700 h-2.5 rounded-full transition-all duration-500 ease-out"
+              className="bg-amber-600 h-2.5 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${state.progress}%` }}
             />
           </div>
@@ -101,7 +101,7 @@ export default function StreamingResultsPanel({ state, onCancel }: StreamingResu
         <>
           {/* Executive Summary - Shows once we have classification */}
           {hasClassification && (
-            <div className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-5 text-white">
+            <div className="rounded-xl p-5 text-white" style={{ backgroundColor: '#1a2332' }}>
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-white/10 rounded-lg">
                   <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

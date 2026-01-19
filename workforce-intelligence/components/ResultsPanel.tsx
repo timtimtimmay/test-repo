@@ -41,7 +41,7 @@ export default function ResultsPanel({ analysis }: ResultsPanelProps) {
   return (
     <div className="space-y-6">
       {/* Executive Summary - Top of page */}
-      <div className="bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-5 text-white">
+      <div className="rounded-xl p-5 text-white" style={{ backgroundColor: '#1a2332' }}>
         <div className="flex items-start gap-3">
           <div className="p-2 bg-white/10 rounded-lg">
             <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
