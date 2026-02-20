@@ -22,19 +22,40 @@ This file provides Claude with context, build instructions, and a UX-reviewed sp
 |--------|--------|
 | 48 hours before | Send setup instructions: VS Code installed, GitHub Copilot extension installed and authenticated, basic VS Code orientation |
 | 24 hours before | Send a "test your setup" prompt — participants paste a simple prompt into Copilot and confirm it responds. Include a support contact. |
+| 24 hours before *(if using pre-work option)* | Send the microsite link with this instruction: *"Before our session, spend ~15 minutes exploring two sections at your own pace: the Sweet Spot quadrant (section 2 — click Reveal and see where your own use cases might land) and the Playbook decision tree (section 7 — run 2–3 ideas from your own work through it). Come ready to share one idea that got a green light."* |
 | Day of | Open microsite in browser, share screen, navigate via scroll or dot nav. No additional tools needed. |
 
-### Session Flow (60 minutes)
+### Session Flow
+
+Two timing variants are provided. The **pre-work variant is recommended** — it frees 4 minutes from the facilitated session and reallocates them to the Anatomy section, which is where the most important new content now lives.
+
+#### Option A — With 15-Minute Pre-Work (Recommended)
+
+Pre-work covers Sections 2 (Sweet Spot) and 7 (Playbook) independently. Participants arrive having already explored the framework and run their own ideas through the decision tree.
 
 | Time | Section | Facilitator Action |
 |------|---------|-------------------|
-| 0:00–0:05 | **Hero** | Stay silent. Let the staggered animation land before speaking. Open with: "I built this without writing a single line of code." |
-| 0:05–0:12 | **Sweet Spot** | Ask participants to predict where "patient data system" and "meeting agenda generator" land before clicking Reveal. The prediction is the learning mechanism. |
-| 0:12–0:20 | **Anatomy of a Vibe** | Walk through the four-step loop. Open your actual Claude/Copilot prompt history and show the real exchanges that built this microsite. |
-| 0:20–0:35 | **Live Build** | Switch to VS Code. Take a verbal vote on what to build (15 min). If Copilot produces something broken, treat it as a teaching moment — don't hide failures. |
-| 0:35–0:50 | **Your Turn** | Participants pick a challenge, copy a starter prompt, and build. Tell them: "Make it yours — change the topic, add features, break things. You're the creative director." |
-| 0:50–0:57 | **Show & Share** | 2–3 volunteers screen-share. Audience reacts with emoji buttons. |
-| 0:57–1:00 | **Playbook** | Walk through one decision tree example as a group. Ask participants to run 2–3 of their own use cases silently. Close with: "Who got a green light on something they want to try next week?" |
+| 0:00–0:05 | **Hero** | Stay silent. Let the animation land. Open with: "I built this without writing a single line of code." Pause. Then: "And here's why that worked — you'll recognise the skill." |
+| 0:05–0:09 | **Sweet Spot debrief** | "You explored this before today — what surprised you? Where did your own use cases land?" Click Reveal for anyone who didn't get to it. 1–2 quick call-outs, then move on. |
+| 0:09–0:21 | **Anatomy of a Vibe** | Walk the five-step loop (including Step 0). Spend the most time on Step 0 and the expertise framing. Open your actual prompt history and show the real exchanges that built this site. |
+| 0:21–0:36 | **Live Build** | Switch to VS Code. Take a verbal vote. 15 minutes. If something breaks, narrate the evaluation: "Here's what I expected. Here's what I got. Here's why it doesn't match my definition of done." |
+| 0:36–0:51 | **Your Turn** | Participants pick a challenge. Point out the brief structure above each starter prompt: "See the Goal / Constraints / Done breakdown? That's the pattern — use it for your own ideas next week." |
+| 0:51–0:57 | **Show & Share** | 2–3 volunteers screen-share. Audience reacts. |
+| 0:57–1:00 | **Playbook close** | "You ran through the decision tree before today. Who got a green light on something?" Close with a show of hands. No need to re-walk the tree. |
+
+#### Option B — No Pre-Work (Condensed)
+
+All content delivered in-session. Anatomy section is tighter; Playbook walk-through covers one group example only.
+
+| Time | Section | Facilitator Action |
+|------|---------|-------------------|
+| 0:00–0:04 | **Hero** | Let the animation land. Open with the credibility line and the expertise reframe: "You already know what 'done' looks like in your work. That's the hardest part of this." |
+| 0:04–0:11 | **Sweet Spot** | Ask participants to predict placements before clicking Reveal. The prediction step is the learning mechanism — don't skip it. |
+| 0:11–0:21 | **Anatomy of a Vibe** | Walk the five-step loop. Prioritise Step 0 and the expertise framing. Show real prompt history. |
+| 0:21–0:34 | **Live Build** | Switch to VS Code. 13 minutes. Narrate evaluation decisions explicitly. |
+| 0:34–0:49 | **Your Turn** | Participants build. Point out the brief structure in the prompt panel. |
+| 0:49–0:55 | **Show & Share** | 2–3 volunteers. Emoji reactions. |
+| 0:55–1:00 | **Playbook** | Walk one use case as a group. Ask for a show of hands: "Who got a green light on something?" |
 
 ---
 
@@ -55,11 +76,11 @@ Build sections in this order. Each section is self-contained and can be verified
 
 1. **Design tokens + layout shell** — Background, font imports, full-viewport section wrapper, global resets
 2. **Dot navigation** — Fixed right-rail, 7 dots, IntersectionObserver wiring, smooth-scroll, hover tooltips
-3. **Section 1: Hero** — Staggered entrance animation, gradient text, subtext
+3. **Section 1: Hero** — Staggered entrance animation, gradient text, subtext with four animation phases including the domain-expertise framing line (Phase 4)
 4. **Section 2: Sweet Spot** — 2×2 quadrant with axes, 12 data points, reveal/reset toggle, hover tooltips
-5. **Section 3: Anatomy of a Vibe** — Four clickable cards, active state, detail panel below
+5. **Section 3: Anatomy of a Vibe** — Five clickable cards (Step 0 through Step 4), active state, detail panel below
 6. **Section 4: Live Build** — Icon + headline + four suggestion buttons
-7. **Section 5: Your Turn** — Six challenge cards, selection state, prompt panel, copy button
+7. **Section 5: Your Turn** — Six challenge cards, selection state, prompt panel with brief structure breakdown (Goal / Constraints / Done) above starter prompt text, copy button
 8. **Section 6: Show & Share** — Four emoji reaction buttons with local counters
 9. **Section 7: Playbook** — Five-question decision tree, GO/STOP/MAYBE result states, reset
 10. **Polish pass** — Entrance animations per section, transition consistency, responsive QA
@@ -265,6 +286,87 @@ This is toggled by clicking the clock icon and defaults to hidden, so it does no
 
 **Why:**
 Facilitators cited time management as a top pain point in workshops of this type. Adding a non-intrusive pacing reference directly in the facilitation tool removes the need for a separate timer tab and keeps the facilitator's screen on the microsite throughout the session. The feature is hidden by default so it doesn't affect presentations where the facilitator is not using it.
+
+---
+
+---
+
+### Change 9: Hero Subtext — Activate Domain Expertise as the Core Credibility Frame
+
+**Source:** Ethan Mollick, "Management as AI Superpower" (Jan 2026)
+
+**Original spec:**
+> Subtext: "This site was built with vibe coding. / I wrote zero lines of code to make it. / By the end of this hour, you'll build something too."
+
+**Problem identified:**
+The Hero establishes that the facilitator built this without code — strong credibility. But it doesn't tell participants *why* this is relevant to them. Non-developers in this audience likely assume vibe coding requires some technical instinct they don't have. Mollick's finding is the direct answer: his best performers were non-developers who had deep domain knowledge and knew what good output looked like. The Hero is the highest-attention moment to make this case.
+
+**Change:**
+Add a fourth animation phase (2800ms delay) after the existing three:
+
+> "You already know what 'done' looks like in your work. / That turns out to be the hard part."
+
+This line renders at 80% opacity, DM Sans, slightly smaller than the key commitment line above it. It is the pivot from "watch what I did" to "here's why you can do this too."
+
+**Why:**
+Confidence is a prerequisite for participation. Participants who believe vibe coding is a technical skill they lack will disengage during the hands-on sections. Naming domain expertise as the actual superpower — before any content is taught — reframes the entire session from a skills transfer into a capabilities recognition. It also gives participants a genuine, memorable answer when asked to promote Copilot to colleagues: *"You already know what good looks like in your area. That's the hard part."*
+
+---
+
+### Change 10: Anatomy of a Vibe — Add Step 0 "Define Done First"
+
+**Source:** Ethan Mollick, "Management as AI Superpower" (Jan 2026)
+
+**Original spec:**
+> Steps: 1. Describe the outcome → 2. Review what it builds → 3. Refine with conversation → 4. Accept or redirect
+
+**Problem identified:**
+The loop is sound, but Step 2 ("Review what it builds — does it match your intent?") assumes participants have a clear intent to compare against. In practice, most first-time vibe coders skip this and accept whatever the AI produces, because they have no pre-stated definition of done to evaluate against. Without this anchor, the loop degrades into open-ended iteration with no exit criteria.
+
+**Change:**
+Add a new first card — Step 0 — before the existing four:
+
+| Step | Icon | Title | Detail text |
+|------|------|-------|-------------|
+| 0 | 🎯 | Define done first | "Before you describe anything, write one sentence: what would this look like if it worked? How will you know it's right? Your domain expertise is the answer here — not prompting skill." |
+
+The existing steps 1–4 are renumbered but otherwise unchanged. The card layout adapts from four to five cards in the flex row; minimum card width reduces from 160px to 140px to accommodate five at narrower viewports.
+
+The detail panel for Step 0 uses DM Mono, consistent with the other steps, but the word "domain expertise" is rendered in cyan to visually echo the Hero framing.
+
+**Why:**
+This is the single highest-leverage pedagogical addition. Mollick's core finding is that management skills — scoping, evaluating, knowing what good looks like — *are* the AI workflow. Step 0 makes that concrete and actionable rather than motivational. It also gives participants a transferable habit: before any future vibe coding session, write one sentence defining done. This habit is what enables independent use after the workshop ends.
+
+---
+
+### Change 11: Your Turn — Add Brief Structure Breakdown in Prompt Panel
+
+**Source:** Ethan Mollick, "Management as AI Superpower" (Jan 2026)
+
+**Original spec:**
+> Prompt text rendered in DM Mono. "Copy" button copies text to clipboard.
+
+**Problem identified:**
+Participants copy a pre-written prompt and paste it into Copilot. This demonstrates that vibe coding works. It does not transfer the skill of writing a prompt independently. Without seeing the structure behind the starter prompt, participants have no template to apply when they return to their own work on Monday. The prompts risk becoming one-time artifacts rather than a repeatable method.
+
+**Change:**
+Above the starter prompt text in the panel, add a "Brief structure" breakdown section showing three labelled fields:
+
+```
+GOAL          [one sentence describing the desired output]
+CONSTRAINTS   [required attributes, themes, or limits]
+DONE WHEN     [how you'll know it worked]
+```
+
+Each starter prompt maps to one breakdown. Example for Personal Dashboard:
+- **Goal:** A single-page overview showing key metrics at a glance
+- **Constraints:** Dark theme, 4 metric cards, one bar chart
+- **Done when:** I can tell at a glance whether things are on track
+
+The brief structure renders in a smaller, muted DM Mono above a thin separator line. The copy button below copies only the starter prompt text, not the breakdown. Label the breakdown section "How this prompt was built" (12px, 50% opacity) to signal it's instructional rather than functional.
+
+**Why:**
+Revealing the structure behind the prompt transforms the starter prompt from a copy-paste shortcut into a worked example. Participants see the pattern (Goal / Constraints / Done), recognise they could fill it in for any domain-specific task, and leave with a transferable method. This directly supports the session goal: participants able to identify and act on vibe coding opportunities in their own work — not just during the workshop.
 
 ---
 
